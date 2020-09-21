@@ -5,6 +5,8 @@ app.use(express.static(__dirname + "/public"));
 
 // Routes
 
+// Added for testing branches
+
 app.get("/", function(req, res) {
     res.render("index.ejs");
 })
