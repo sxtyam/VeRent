@@ -11,10 +11,6 @@ app.get("/", function(req, res) {
     res.render("index.ejs");
 })
 
-app.get("/aboutUs", function(req, res) {
-    res.render("aboutUs.ejs");
-})
-
 app.get("/bicycles", function(req, res) {
     res.render("bicycles.ejs");
 })
@@ -33,6 +29,14 @@ app.get("/bikes", function(req, res) {
 
 app.get("/services", function(req, res) {
     res.render("services.ejs");
+})
+
+app.get("/logIn", function(req, res) {
+    res.render("logIn.ejs");
+})
+
+app.get("/signUp", function(req, res) {
+    res.render("signUp.ejs");
 })
 
 
