@@ -1,202 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <!-- Hello -->
-  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-  <title>VeRent</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <title>MyHeading</title>
 </head>
 <body>
-  <header class="text-gray-700 body-font">
-    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-      <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-         <img src="/images/vernet.png" alt="logo" width="100px">
-        <span class="ml-3 text-xl">VeRent</span>
-      </a>
-      <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
-            <a class="mr-5 hover:text-gray-900" href="/">Home</a>
-            <a class="mr-5 hover:text-gray-900" href="/aboutUs">About</a>
-            <a class="mr-5 hover:text-gray-900" href="/Services">Services</a>
-            <a class="mr-5 hover:text-gray-900" href="/contactUs">Contact us</a>
-      </nav>
-      <button class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">Login 
-        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-          <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>
-      </button>
-    </div>
-  </header>
-  <hr>
-  <h1 class="pt-12 sm:text-6xl text-5xl text-center font-medium title-font mb-2 text-gray-900">Rent the vehicle of your choice!</h1>
-  <section class="text-gray-700 body-font">
-    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-      <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-        <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Your key for a rental car 
-           <br class="hidden lg:inline-block">rent your car at low price
-        </h1>
-        <p class="mb-8 leading-relaxed">We promise you to provide ample of options to select your rental car </p>
-        <div class="flex justify-center">
-          <a href="/cars"><button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-12 focus:outline-none hover:bg-indigo-600 rounded text-lg" > Explore Cars </button></a>
+    
+    <header id="mainheader">
+        <div class="container">
+            <img src="vernet.png" alt="logo">  
+        </div>
+        <div class="tagline">
+            <p> You rent a lot more than a Vehicle! </p>
+        </div> 
        
+    </header>
+   
+    <div class="topnav">
+        <a class="active" href="index.html">Home</a>
+        <a href="Services.html">Services</a>
+        <a href="contactus.html">Contact Us</a>
+        <a href="sign_up.html">Sign Up</a>
+        <a href="log_in.html">Log In</a>
+      </div>
+    <section id="bodystart">
+        <h1 class="abc"> Start Your WonderFul Journey</h1>
+            <p>We simplified car rentals, so you can focus on what's important to you.</p>
+    </section>
+    <div class="forborder">
+    <section id="servs">
+        <h1 class="preheading">Easy & Quick Online Booking. Clean & Well Maintained Fleet.A Vehicle for every need!</h1>
+    
+        <div class="options">
+            <div class="Cars">
+                 
+                <img src="shutterstock_1158115840-scaled.jpg" alt="carimage">      
+                
+                 <p> We have a range of cars, so something will perfectly fit your trip</p>
+                 <h1> Cars </h1> 
+                </div>
+                <a href="carclick.html"><button type="button" class="block">Block Button</button></a>
+            <div class="motorbikes">
+                 
+                <img src="royal-enfield-himalayan-himalayan-enfield-motorcycle.jpg" alt="bikeimage">
+               
+                <p>We specialize in motorcycle rental, from short-term motorbike rental to long-term hiring or leasing, from bike tours to bike maintenance and service – we have it all
+                </p>
+                <h1> Motorbikes </h1> 
+            </div>
+            <a href="mbikeclick.html"><button type="button" class="block">Block Button</button></a>
+            <div class="bicycles">
+                
+                <img src="imgimg.jpg" alt="bicycle image">
+                
+                <p>
+                    With its perfect ergonomic designed bicycles and GPS enabled locks, VeRent is the perfect smart bicycle available in the market for users.
+                </p>
+                <h1> Bicycles</h1>
+            </div>
+            <a href="bicycleclick.html"><button type="button" class="block" onclick="">Block Button</button></a>
         </div>
-      </div>
-      <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-        <img class="object-cover object-center rounded" alt="hero" src="/images/background image.jpg" width="700" height="600">
-      </div>
+    </section>
     </div>
-  </section>
-  <section class="text-gray-700 body-font">
-    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-      <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-        <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Before they sold out
-          <br class="hidden lg:inline-block">readymade gluten
-        </h1>
-        <p class="mb-8 leading-relaxed">Copper mug try-hard pitchfork pour-over freegan heirloom neutra air plant cold-pressed tacos poke beard tote bag. Heirloom echo park mlkshk tote bag selvage hot chicken authentic tumeric truffaut hexagon try-hard chambray.</p>
-        <div class="flex justify-center">
-         <a href="/bikes"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-12 focus:outline-none hover:bg-indigo-600 rounded text-lg">Explore Motorbikes</button></a>
-          
-        </div>
-      </div>
-      <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-        <img class="object-cover object-center rounded" alt="hero" src="/images/motorbike.jpg" width="700" height="600">
-      </div>
+    <div class="testinomials">
+           <div class="inner">
+                <h1>Testinomials</h1>
+                <div class="border"></div>
+
+
+                <div class="row">
+                     <div class="col">
+                         <div class="testinomial">
+                             <img src="purepng.com-flower-vectorflower-clipart-vector-floral-961524679762iqtpl.png" alt="picture">
+                             <div class="name">
+                                 full name
+                             </div>
+                         <div class="stars">
+                             <i class="far fa-star"></i>
+                             <i class="far fa-star"></i>
+                             <i class="far fa-star"></i>
+                             <i class="far fa-star"></i>
+                             <i class="far fa-star"></i>
+                         </div>
+                           <p>i will add muxh content here</p>
+                        </div>
+                     </div>
+                     <div class="col">
+                        <div class="testinomial">
+                            <img src="purepng.com-flower-vectorflower-clipart-vector-floral-961524679762iqtpl.png" alt="picture">
+                            <div class="name">
+                                full name
+                            </div>
+                        <div class="stars">
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                          <p>i will add muxh content here</p>
+                       </div>
+                    </div>
+                    <div class="col">
+                        <div class="testinomial">
+                            <img src="purepng.com-flower-vectorflower-clipart-vector-floral-961524679762iqtpl.png" alt="picture">
+                            <div class="name">
+                                full name
+                            </div>
+                        <div class="stars">
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                          <p>i will add muxh content here</p>
+                       </div>
+                    </div>
+
+                </div>
+           </div>
     </div>
-  </section>
-  <hr>
-  <section class="text-gray-700 body-font">
-    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-      <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-        <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Before they sold out
-          <br class="hidden lg:inline-block"> 
-        </h1>
-        <p class="mb-8 leading-relaxed">Copper mug try-hard pitchfork pour-over freegan heirloom neutra air plant cold-pressed tacos poke beard tote bag. Heirloom echo park mlkshk tote bag selvage hot chicken authentic tumeric truffaut hexagon try-hard chambray.</p>
-        <div class="flex justify-center">
-         <a href="/bicycles"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-12 focus:outline-none hover:bg-indigo-600 rounded text-lg">Explore Bicycles</button></a>
-          
+<footer>
+    <div class="footermaindiv">
+        <div class="leftcol">
+            <h1>VeRent</h1>
+            <div class="socialmediaicons">
+                  <a href="#"><i class="fab fa-facebook"></i></a>
+                  <a href="#"><i class="fab fa-twitter"></i></a>
+                  <a href="#"><i class="fab fa-instagram"></i></a>
+                  
+            </div>
+            <p class="rights-text">
+                &#169 2020 Created By Dtuites All rights reserved</p>
         </div>
-      </div>
-      <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-        <img class="object-cover object-center rounded" alt="hero" src="/images/bicycle1.jpg" width="700" height="600">
-      </div>
+        <div class="right-col">
+            <h1>Our Newsletter</h1>
+            <div class="border"></div>
+            <p>Enter your Email to get our News and updates</p>
+            <form action="" class="newsletter-form">
+                <input type="text" class="txtb" placeholder="Enter your Email id">
+                <input type="submit" class="btn" value="submit">
+            </form>
+        </div>
     </div>
-  </section>
-  <hr>
-  <section class="text-gray-700 body-font">
-    <div class="container px-5 py-24 mx-auto">
-      <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="inline-block w-8 h-8 text-gray-400 mb-8" viewBox="0 0 975.036 975.036">
-          <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
-        </svg>
-        <p class="leading-relaxed text-lg">Thank you for providing unlimited kilometers. Our road trip with friends was so stress free and fun because we knew we did not have to pay anything over the money each of us pooled in no matter where all we went.</p>
-        <span class="inline-block h-1 w-10 rounded bg-indigo-500 mt-8 mb-6"></span>
-        <h2 class="text-gray-900 font-medium title-font tracking-wider text-sm">Mr.X</h2>
-        <p class="text-gray-500">A Satisfied Customer</p>
-      </div>
-    </div>
-  </section>
-  <footer class="text-gray-700 body-font">
-    <div class="container px-5 py-24 mx-auto">
-      <div class="flex flex-wrap md:text-left text-center order-first">
-        <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-          <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
-          <nav class="list-none mb-10">
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">First Link</a>
-            </li>
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">Second Link</a>
-            </li>
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">Third Link</a>
-            </li>
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
-            </li>
-          </nav>
-        </div>
-        <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-          <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
-          <nav class="list-none mb-10">
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">First Link</a>
-            </li>
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">Second Link</a>
-            </li>
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">Third Link</a>
-            </li>
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
-            </li>
-          </nav>
-        </div>
-        <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-          <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
-          <nav class="list-none mb-10">
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">First Link</a>
-            </li>
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">Second Link</a>
-            </li>
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">Third Link</a>
-            </li>
-            <li>
-              <a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
-            </li>
-          </nav>
-        </div>
-        <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-          <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">SUBSCRIBE</h2>
-          <div class="flex xl:flex-no-wrap md:flex-no-wrap lg:flex-wrap flex-wrap justify-center md:justify-start">
-            <input class="w-40 sm:w-auto bg-gray-100 rounded xl:mr-4 lg:mr-0 sm:mr-4 mr-2 border border-gray-400 focus:outline-none focus:border-indigo-500 text-base py-2 px-4" placeholder="Placeholder" type="text">
-            <button class="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Button</button>
-          </div>
-          <p class="text-gray-500 text-sm mt-2 md:text-left text-center">Bitters chicharrones fanny pack
-            <br class="lg:block hidden">waistcoat green juice
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="bg-gray-200">
-      <div class="container px-5 py-6 mx-auto flex items-center sm:flex-row flex-col">
-        <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
-         <img src="vernet.png" alt="logo" width="80px">
-          <span class="ml-3 text-xl">VeRent</span>
-        </a>
-        <p class="text-sm text-gray-500 sm:ml-6 sm:mt-0 mt-4">© 2020 VeRent —
-        
-        </p>
-        <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-          <a class="text-gray-500">
-            <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-              <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-            </svg>
-          </a>
-          <a class="ml-3 text-gray-500">
-            <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-            </svg>
-          </a>
-          <a class="ml-3 text-gray-500">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
-            </svg>
-          </a>
-          <a class="ml-3 text-gray-500">
-            <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
-              <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
-              <circle cx="4" cy="4" r="2" stroke="none"></circle>
-            </svg>
-          </a>
-        </span>
-      </div>
-    </div>
-  </footer>
-  
+</footer>
+
 </body>
 </html>
