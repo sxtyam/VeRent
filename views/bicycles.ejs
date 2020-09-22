@@ -1,114 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="stylesheets/bicycles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Document</title>
 </head>
+
 <body>
+
     <body>
         <header id="mainheader">
             <div class="container">
-                <img src="images/vernet.png" alt="logo">  
+                <img src="images/vernet.png" alt="logo">
             </div>
             <div class="tagline">
                 <p> You rent a lot more than a Vehicle! </p>
-            </div> 
-           
+            </div>
+
         </header>
-       
+
         <div class="topnav">
             <a class="active" href="/">Home</a>
             <a href="/services">Services</a>
             <a href="/contactUs">Contact Us</a>
             <a href="/signUp">Sign Up</a>
             <a href="/logIn">Log In</a>
-          </div>
-     <section class="sec-container">
-             <h1 class="h-primary center">Select from the options!</h1>
-             <div id="services">
-                 <div class="box">
-                 <img src="" alt="img">
-                 <h2 class="h-secondary center">Bicycle Name</h2>
-                 <p class="center">some content will be added here</p>
-            
-                </div>
-             </div>
-             <div id="services">
-                <div class="box">
-                <img src="" alt="img">
-                <h2 class="h-secondary center">Bicycle Name</h2>
-                <p class="center">some content will be added here</p>
-           
-               </div>
-            </div>
-            <div id="services">
-                <div class="box">
-                <img src="" alt="img">
-                <h2 class="h-secondary center">Bicycle Name</h2>
-                <p class="center">some content will be added here</p>
-           
-               </div>
-            </div>
-            <div id="services">
-                <div class="box">
-                <img src="" alt="img">
-                <h2 class="h-secondary center">Bicycle Name</h2>
-                <p class="center">some content will be added here</p>
-           
-               </div>
-            </div>
-            <div id="services">
-                <div class="box">
-                <img src="" alt="img">
-                <h2 class="h-secondary center">Bicycle Name</h2>
-                <p class="center">some content will be added here</p>
-           
-               </div>
-            </div>
-    
-            <div id="services">
-                 <div class="box">
-                 <img src="" alt="img">
-                 <h2 class="h-secondary center">Bicycle Name</h2>
-                 <p class="center">some content will be added here</p>
-            
-                </div>
-             </div>
-             <div id="services">
-                <div class="box">
-                <img src="" alt="img">
-                <h2 class="h-secondary center">Bicycle Name</h2>
-                <p class="center">some content will be added here</p>
-           
-               </div>
-            </div>
-            <div id="services">
-                <div class="box">
-                <img src="" alt="img">
-                <h2 class="h-secondary center">Bicycle Name</h2>
-                <p class="center">some content will be added here</p>
-           
-               </div>
-            </div>
-    </section>     
-    <footer>
-        <div class="footermaindiv">
-            <div class="leftcol">
-                <h1>VeRent</h1>
-                <div class="socialmediaicons">
-                      <a href="#"><i class="fab fa-facebook"></i></a>
-                      <a href="#"><i class="fab fa-twitter"></i></a>
-                      <a href="#"><i class="fab fa-instagram"></i></a>
-                      
-                </div>
-                <p class="rights-text">
-                    &#169 2020 Created By Dtuites All rights reserved</p>
-            </div>
         </div>
-    </footer>
-</body>
-</html>
+        <section class="sec-container">
+            <h1 class="h-primary center">Select from the options!</h1>
 
+            <a href="/bicycles/add" type="button">Add bicycles</a>
+
+            <div class="container">
+                <% bicycles.forEach(function(bicycle) { %>
+                    <div class="card">
+                        <div class="card-body">
+                            <p>Model: <%= bicycle.Model %></p>
+                            <p>Rating: <%= bicycle.Rating %></p>
+                            <p>Available Now:
+                                <% if(bicycle.isAvailable) { %>
+                                Yes
+                                <% } else { %>
+                                No
+                                <% } %>
+                            </p>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+        <footer>
+            <div class="footermaindiv">
+                <div class="leftcol">
+                    <h1>VeRent</h1>
+                    <div class="socialmediaicons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+
+                    </div>
+                    <p class="rights-text">
+                        &#169 2020 Created By Dtuites All rights reserved</p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </body>
+
+</html>

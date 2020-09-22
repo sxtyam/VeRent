@@ -6,7 +6,7 @@ var bicycleSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    isAvaialble: {
+    isAvailable: {
         type: Boolean,
         default: true
     }

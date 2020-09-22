@@ -17,18 +17,6 @@ app.get("/", function(req, res) {
     res.render("index.ejs");
 })
 
-app.get("/bicycles", function(req, res) {
-    res.render("bicycles.ejs");
-})
-
-app.get("/cars", function(req, res) {
-    res.render("cars.ejs");
-})
-
-app.get("/contactUs", function(req, res) {
-    res.render("contactUs.ejs");
-})
-
 app.get("/bikes", function(req, res) {
     Bike.find({}, function(err, foundBikes) {
         if(err) {
@@ -44,7 +32,6 @@ app.get("/bikes/add", function(req, res) {
 })
 
 app.post("/bikes", function(req, res) {
-    // console.log(req.body);
     Bike.create({
         PlateNumber: req.body.plateNumber,
         Model: req.body.model,
@@ -58,6 +45,68 @@ app.post("/bikes", function(req, res) {
             res.redirect("/bikes");
         }
     })
+})
+
+app.get("/bicycles", function(req, res) {
+    Bicycle.find({}, function(err, foundBicycles) {
+        if(err) {
+            console.log(err);
+        } else {
+            res.render("bicycles.ejs", {bicycles: foundBicycles});
+        }
+    })
+})
+
+app.get("/bicycles/add", function(req, res) {
+    res.render("addBicycles.ejs");
+})
+
+app.post("/bicycles", function(req, res) {
+    Bicycle.create({
+        Model: req.body.model,
+        Rating: 0,
+        isAvailable: true
+    }, function(err, newBicycle) {
+        if(err) {
+            console.log(err);
+        } else {
+            res.redirect("/bicycles");
+        }
+    })
+})
+
+app.get("/cars", function(req, res) {
+    Car.find({}, function(err, foundCars) {
+        if(err) {
+            console.log(err);
+        } else {
+            res.render("cars.ejs", {cars: foundCars});
+        }
+    })
+})
+
+app.get("/cars/add", function(req, res) {
+    res.render("addCars.ejs");
+})
+
+app.post("/cars", function(req, res) {
+    Car.create({
+        PlateNumber: req.body.plateNumber,
+        Model: req.body.model,
+        KMsTravelled: req.body.travelled,
+        Rating: 0,
+        isAvailable: true
+    }, function(err, newCar) {
+        if(err) {
+            console.log(err);
+        } else {
+            res.redirect("/cars");
+        }
+    })
+})
+
+app.get("/contactUs", function(req, res) {
+    res.render("contactUs.ejs");
 })
 
 app.get("/services", function(req, res) {
