@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var bikeSchema = mongoose.Schema({
+var carSchema = mongoose.Schema({
     PlateNumber: {
         type: String,
         unique: true,
@@ -21,4 +21,4 @@ var bikeSchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("Bike", bikeSchema);
+module.exports = mongoose.model("Car", carSchema);

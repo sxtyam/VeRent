@@ -1,11 +1,12 @@
 var express = require('express');
 var app = express();
+var mongoose = require('mongoose');
 
 app.use(express.static(__dirname + "/public"));
 
-// Routes
+mongoose.connect("mongodb://localhost/VeRent", {useNewUrlParser: true, useUnifiedTopology: true});
 
-// Added for testing branches
+// Routes
 
 app.get("/", function(req, res) {
     res.render("index.ejs");
