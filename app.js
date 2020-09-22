@@ -48,7 +48,6 @@ app.post("/bikes", function(req, res) {
 })
 
 app.post("/bike/delete/:bikeId", function(req, res) {
-    // console.log(req.params.bikeId);
     Bike.deleteOne({ _id: req.params.bikeId }, function(err) {
         if(err) {
             console.log(err);
@@ -86,6 +85,16 @@ app.post("/bicycles", function(req, res) {
     })
 })
 
+app.post("/bicycle/delete/:bicycleId", function(req, res) {
+    Bicycle.deleteOne({ _id: req.params.bicycleId }, function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            res.redirect("/bicycles");
+        }
+    })
+})
+
 app.get("/cars", function(req, res) {
     Car.find({}, function(err, foundCars) {
         if(err) {
@@ -108,6 +117,16 @@ app.post("/cars", function(req, res) {
         Rating: 0,
         isAvailable: true
     }, function(err, newCar) {
+        if(err) {
+            console.log(err);
+        } else {
+            res.redirect("/cars");
+        }
+    })
+})
+
+app.post("/car/delete/:carId", function(req, res) {
+    Car.deleteOne({ _id: req.params.carId }, function(err) {
         if(err) {
             console.log(err);
         } else {

@@ -48,6 +48,9 @@
                                 No
                                 <% } %>
                             </p>
+
+                            <form id=<%= bicycle._id %> method="post" action=<%= "/bicycle/delete/" + bicycle._id %>></form>
+                            <a onclick="document.getElementById('<%= bicycle._id %>').submit();">Delete</a>
                         </div>
                     </div>
                 <% }) %>
