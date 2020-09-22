@@ -50,6 +50,9 @@
                                     No
                                 <% } %>
                             </p>
+                            
+                            <form id=<%= bike._id %> method="post" action=<%= "/bike/delete/" + bike._id %>></form>
+                            <a onclick="document.getElementById('<%= bike._id %>').submit();">Delete</a>
                         </div>
                     </div>
                 <% }) %>

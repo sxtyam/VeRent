@@ -47,6 +47,17 @@ app.post("/bikes", function(req, res) {
     })
 })
 
+app.post("/bike/delete/:bikeId", function(req, res) {
+    // console.log(req.params.bikeId);
+    Bike.deleteOne({ _id: req.params.bikeId }, function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            res.redirect("/bikes");
+        }
+    })
+})
+
 app.get("/bicycles", function(req, res) {
     Bicycle.find({}, function(err, foundBicycles) {
         if(err) {
