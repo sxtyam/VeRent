@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var bikeSchema = mongoose.Schema({
+var carSchema = mongoose.Schema({
     PlateNumber: {
         type: String,
         unique: true,
@@ -15,10 +15,10 @@ var bikeSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    isAvailable: {
+    isAvaialble: {
         type: Boolean,
         default: true
     }
 })
 
-module.exports = mongoose.model("Bike", bikeSchema);
+module.exports = mongoose.model("Car", carSchema);
