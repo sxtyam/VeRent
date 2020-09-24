@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,57 +8,55 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Document</title>
 </head>
+
 <body>
 
-  <header id="mainheader">
-    <div class="container">
-        <img src="images/vernet.png" alt="logo">  
-    </div>
-    <div class="tagline">
-        <p> You rent a lot more than a Vehicle! </p>
-    </div> 
-   
-</header>
-
-<div class="topnav">
-    <a class="active" href="/">Home</a>
-    <a href="/services">Services</a>
-    <a href="/contactUs">Contact Us</a>
-    <a href="/signUp">Sign Up</a>
-    <a href="/logIn">Log In</a>
-  </div>
-    <form action="action_page.php" method="post">
-        <div class="imgcontainer">
-          <img src="images/img_avatar2.png" alt="Avatar" class="avatar">
-        </div>
-      
+    <header id="mainheader">
         <div class="container">
-          <label for="uname"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="uname" required>
-      
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="psw" required>
-      
-          <button type="submit">Login</button>
-          <label>
-            <input type="checkbox" checked="checked" name="remember"> Remember me
-          </label>
+            <img src="images/vernet.png" alt="logo">
         </div>
-      
+        <div class="tagline">
+            <p> You rent a lot more than a Vehicle! </p>
+        </div>
+
+    </header>
+
+    <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/services">Services</a>
+        <a href="/contactUs">Contact Us</a>
+        <a href="/signUp">Sign Up</a>
+        <a href="/logIn">Log In</a>
+    </div>
+    <form action="/logIn" method="POST">
+        <div class="imgcontainer">
+            <img src="images/img_avatar2.png" alt="Avatar" class="avatar">
+        </div>
+
+        <div class="container">
+            <label for="username"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="username" required>
+
+            <label for="password"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" required>
+
+            <button type="submit">Login</button>
+        </div>
+
         <div class="container" style="background-color:#f1f1f1">
-          <button type="button" class="cancelbtn">Cancel</button>
-          <span class="psw">Forgot <a href="#">password?</a></span>
+            <button type="button" class="cancelbtn">Cancel</button>
+            <span class="psw">Forgot <a href="#">password?</a></span>
         </div>
-      </form>
-      <footer>
+    </form>
+    <footer>
         <div class="footermaindiv">
             <div class="leftcol">
                 <h1>VeRent</h1>
                 <div class="socialmediaicons">
-                      <a href="#"><i class="fab fa-facebook"></i></a>
-                      <a href="#"><i class="fab fa-twitter"></i></a>
-                      <a href="#"><i class="fab fa-instagram"></i></a>
-                      
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+
                 </div>
                 <p class="rights-text">
                     &#169 2020 Created By Dtuites All rights reserved</p>
@@ -65,4 +64,5 @@
         </div>
     </footer>
 </body>
+
 </html>
