@@ -17,8 +17,8 @@ var vehicleSchema = mongoose.Schema({
         default: true
     },
     image: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Image"
+        data: Buffer,
+        contentType: String
     },
     dailyRent: Number,
     transictions: [

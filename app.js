@@ -36,7 +36,7 @@ mongoose.connect("mongodb://localhost/VeRent", { useNewUrlParser: true, useUnifi
 // var multer = require('multer');
 // var upload = multer({ dest: './uploads' });
 
-app.use(multer({dest:'./uploads/'}).single('uploadedImage'));
+app.use(multer({ dest: './uploads/' }).single('uploadedImage'));
 // app.use(multer({dest:'./uploads/'}).array(...));
 // app.use(multer({dest:'./uploads/'}).fields(...));
 
@@ -234,11 +234,11 @@ app.get("/addVehicle", function (req, res) {
     res.render("addVehicle.ejs");
 })
 
-app.post("/addVehicle", function(req, res) {
-    var newImage = new Image();
-    newImage.img.data = fs.readFileSync(req.file.path)
-    newImage.img.contentType = 'image / png';
-    newImage.save();
+app.post("/addVehicle", function (req, res) {
+    // var newImage = new Image();
+    // newImage.img.data = fs.readFileSync(req.file.path)
+    // newImage.img.contentType = 'image / png';
+    // newImage.save();
     console.log("Image has been save in the database!");
     Vehicle.create({
         plateNumber: req.body.plateNumber,
@@ -247,11 +247,14 @@ app.post("/addVehicle", function(req, res) {
         rating: 0,
         isAvailable: true,
         vehicleType: req.body.vehicleType,
-        image: newImage,
+        image: {
+            data: fs.readFileSync(req.file.path),
+            contentType: 'image/png'
+        },
         dailyRent: req.body.dailyRent,
         transictions: []
-    }, function(err, newVehicle) {
-        if(err) {
+    }, function (err, newVehicle) {
+        if (err) {
             console.log(err)
         } else {
             console.log("Added a new Vehicle!")
@@ -311,17 +314,31 @@ app.get("/logOut", function (req, res) {
 });
 
 
+// Rough route
+
+app.get('/display', function (req, res, next) {
+    Vehicle.findOne({ vehicleType: "car" }, function (err, vehicle) {
+        if (err) return next(err);
+        if (vehicle) {
+            res.contentType(vehicle.image.contentType);
+            // res.setHeader('content-type', vehicle.image.contentType);
+            res.send(vehicle.image.data);
+        } else res.send("");
+    });
+});
+
+
 // =============
 // IMAGE UPLOAD
 // =============
 
-app.post('/api/photo', function (req, res) {
-    var newImage = new Image();
-    newImage.img.data = fs.readFileSync(req.file.path)
-    newImage.img.contentType = 'image / png';
-    newImage.save();
-    console.log("Image has been submitted!");
-});
+// app.post('/api/photo', function (req, res) {
+//     var newImage = new Image();
+//     newImage.img.data = fs.readFileSync(req.file.path)
+//     newImage.img.contentType = 'image / png';
+//     newImage.save();
+//     console.log("Image has been submitted!");
+// });
 
 
 //  ================
