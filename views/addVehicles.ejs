@@ -7,11 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
     <script>
         function formChangeHandler() {
-            if(document.getElementById("bicycle").checked) {
+            if (document.getElementById("bicycle").checked) {
                 document.getElementById("plateNumberDiv").style.display = "none";
                 document.getElementById("travelledDiv").style.display = "none";
             } else {
@@ -29,19 +30,22 @@
         <form action="/bikes" method="POST">
             <div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" onchange="formChangeHandler()" name="vehicleType" id="car" value="car" checked>
+                    <input class="form-check-input" type="radio" onchange="formChangeHandler()" name="vehicleType"
+                        id="car" value="car" checked>
                     <label class="form-check-label" for="car">
                         Car
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" onchange="formChangeHandler()" name="vehicleType" id="bike" value="bike">
+                    <input class="form-check-input" type="radio" onchange="formChangeHandler()" name="vehicleType"
+                        id="bike" value="bike">
                     <label class="form-check-label" for="bike">
                         Bike
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" onchange="formChangeHandler()" name="vehicleType" id="bicycle" value="bicycle">
+                    <input class="form-check-input" type="radio" onchange="formChangeHandler()" name="vehicleType"
+                        id="bicycle" value="bicycle">
                     <label class="form-check-label" for="bicycle">
                         Bicycle
                     </label>
@@ -60,6 +64,13 @@
                 <input type="number" class="form-control" id="travelled" name="travelled">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <form action="/api/photo" id="imageForm" method="POST" enctype="multipart/form-data">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" onchange="document.getElementById('imageForm').submit()" id="customFile" name="uploadedImage">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
         </form>
     </div>
 

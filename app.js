@@ -5,15 +5,39 @@ var bodyParser = require('body-parser');
 var session = require("express-session")
 var passport = require('passport')
 var LocalStrategy = require('passport-local')
+var fs = require("fs");
+var multer = require('multer');
 var Bicycle = require("./models/bicycle.js");
 var Car = require("./models/car.js");
 var Bike = require("./models/bike.js");
 var User = require("./models/user.js");
+var Image = require("./models/image.js");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
 mongoose.connect("mongodb://localhost/VeRent", { useNewUrlParser: true, useUnifiedTopology: true });
+
+
+// =========================
+// IMAGE SAVING IN DATABASE
+// =========================
+
+// SETTING UP PATH FOR MULTER
+
+// app.use(multer({
+//     dest: './uploads/',
+//     rename: function (fieldname, filename) {
+//         return filename;
+//     },
+// }));
+
+// var multer = require('multer');
+// var upload = multer({ dest: './uploads' });
+
+app.use(multer({dest:'./uploads/'}).single('uploadedImage'));
+// app.use(multer({dest:'./uploads/'}).array(...));
+// app.use(multer({dest:'./uploads/'}).fields(...));
 
 
 // =======================
@@ -57,7 +81,7 @@ passport.deserializeUser(function (id, done) {
 // ================
 
 app.get("/", function (req, res) {
-    res.render("index.ejs", {loggedIn: req.isAuthenticated(), user: req.user});
+    res.render("index.ejs", { loggedIn: req.isAuthenticated(), user: req.user });
 })
 
 // ===============
@@ -205,7 +229,7 @@ app.get("/services", function (req, res) {
 // ADD VEHICLES
 // =================
 
-app.get("/addVehicles", function(req, res) {
+app.get("/addVehicles", function (req, res) {
     res.render("addVehicles.ejs");
 })
 
@@ -254,9 +278,22 @@ app.post("/signUp", function (req, res) {
 // LOGOUT
 // ================
 
-app.get("/logOut", function(req, res){
+app.get("/logOut", function (req, res) {
     req.logout();
     res.redirect("/");
+});
+
+
+// =============
+// IMAGE UPLOAD
+// =============
+
+app.post('/api/photo', function (req, res) {
+    var newImage = new Image();
+    newImage.img.data = fs.readFileSync(req.file.path)
+    newImage.img.contentType = 'image / png';
+    newImage.save();
+    console.log("Image has been submitted!");
 });
 
 
