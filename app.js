@@ -15,7 +15,10 @@ app.use(express.static(__dirname + "/public"));
 
 mongoose.connect("mongodb://localhost/VeRent", { useNewUrlParser: true, useUnifiedTopology: true });
 
-// Authentication Setup
+
+// =======================
+// AUTHENTICATION SETUP
+// =======================
 
 passport.use(new LocalStrategy(
     function (username, password, done) {
@@ -48,11 +51,18 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
-// Routes
+
+// ================
+// ROUTES
+// ================
 
 app.get("/", function (req, res) {
     res.render("index.ejs", {loggedIn: req.isAuthenticated(), user: req.user});
 })
+
+// ===============
+// BIKES
+// ===============
 
 app.get("/bikes", function (req, res) {
     Bike.find({}, function (err, foundBikes) {
@@ -94,6 +104,11 @@ app.post("/bike/delete/:bikeId", function (req, res) {
     })
 })
 
+
+// ==================
+// BICYCLES
+// ==================
+
 app.get("/bicycles", function (req, res) {
     Bicycle.find({}, function (err, foundBicycles) {
         if (err) {
@@ -131,6 +146,11 @@ app.post("/bicycle/delete/:bicycleId", function (req, res) {
         }
     })
 })
+
+
+// ===============
+// CARS
+// ===============
 
 app.get("/cars", function (req, res) {
     Car.find({}, function (err, foundCars) {
@@ -180,6 +200,20 @@ app.get("/services", function (req, res) {
     res.render("services.ejs");
 })
 
+
+// =================
+// ADD VEHICLES
+// =================
+
+app.get("/addVehicles", function(req, res) {
+    res.render("addVehicles.ejs");
+})
+
+
+// ================
+// LOGIN
+// ================
+
 app.get("/logIn", function (req, res) {
     res.render("logIn.ejs");
 })
@@ -191,6 +225,11 @@ app.post('/logIn',
         failureFlash: true
     })
 );
+
+
+// ================
+// SIGNUP
+// ================
 
 app.get("/signUp", function (req, res) {
     res.render("signUp.ejs");
@@ -210,12 +249,20 @@ app.post("/signUp", function (req, res) {
     })
 })
 
+
+// ================
+// LOGOUT
+// ================
+
 app.get("/logOut", function(req, res){
     req.logout();
     res.redirect("/");
- });
+});
 
 
+//  ================
+// SERVER LISTENING
+// =================
 
 app.listen(3000, function () {
     console.log("Server has been started!");
