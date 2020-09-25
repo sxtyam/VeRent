@@ -1,15 +1,33 @@
 var mongoose = require('mongoose');
 
 var vehicleSchema = mongoose.Schema({
-    Model: String,
-    Rating: {
+    plateNumber: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    model: String,
+    vehicleType: String,
+    KMsTravelled: {
         type: Number,
-        default: 0
+        required: true
     },
     isAvailable: {
         type: Boolean,
         default: true
-    }
+    },
+    image: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Image"
+    },
+    dailyRent: Number,
+    transictions: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Transiction"
+        }
+    ],
+    rating: Number
 })
 
-module.exports = mongoose.model("Bicycle", bicycleSchema);
+module.exports = mongoose.model("Vehicle", vehicleSchema);

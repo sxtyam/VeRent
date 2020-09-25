@@ -27,7 +27,7 @@
 
 <body>
     <div class="container">
-        <form action="/bikes" method="POST">
+        <form action="/addVehicle" id="addVehicleForm" method="POST" enctype="multipart/form-data">
             <div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" onchange="formChangeHandler()" name="vehicleType"
@@ -63,14 +63,15 @@
                 <label for="travelled">Kilometers Travelled</label>
                 <input type="number" class="form-control" id="travelled" name="travelled">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-
-        <form action="/api/photo" id="imageForm" method="POST" enctype="multipart/form-data">
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" onchange="document.getElementById('imageForm').submit()" id="customFile" name="uploadedImage">
-                <label class="custom-file-label" for="customFile">Choose file</label>
+            <div class="form-group">
+                <label for="dailyRent">Daily Rent</label>
+                <input type="number" class="form-control" id="dailyRent" name="dailyRent">
             </div>
+            <div class="custom-file form-group">
+                <input type="file" class="custom-file-input" id="customFile" name="uploadedImage" accept="image/*">
+                <label class="custom-file-label" for="customFile">Choose Image</label>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
         </form>
     </div>
 

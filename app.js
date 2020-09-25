@@ -12,6 +12,7 @@ var Car = require("./models/car.js");
 var Bike = require("./models/bike.js");
 var User = require("./models/user.js");
 var Image = require("./models/image.js");
+const Vehicle = require('./models/Vehicle.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
@@ -225,12 +226,38 @@ app.get("/services", function (req, res) {
 })
 
 
-// =================
-// ADD VEHICLES
-// =================
+// =============
+// ADD VEHICLE
+// =============
 
-app.get("/addVehicles", function (req, res) {
-    res.render("addVehicles.ejs");
+app.get("/addVehicle", function (req, res) {
+    res.render("addVehicle.ejs");
+})
+
+app.post("/addVehicle", function(req, res) {
+    var newImage = new Image();
+    newImage.img.data = fs.readFileSync(req.file.path)
+    newImage.img.contentType = 'image / png';
+    newImage.save();
+    console.log("Image has been save in the database!");
+    Vehicle.create({
+        plateNumber: req.body.plateNumber,
+        model: req.body.model,
+        KMsTravelled: req.body.travelled,
+        rating: 0,
+        isAvailable: true,
+        vehicleType: req.body.vehicleType,
+        image: newImage,
+        dailyRent: req.body.dailyRent,
+        transictions: []
+    }, function(err, newVehicle) {
+        if(err) {
+            console.log(err)
+        } else {
+            console.log("Added a new Vehicle!")
+            res.redirect("/");
+        }
+    })
 })
 
 
