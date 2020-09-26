@@ -6,6 +6,7 @@ var session = require("express-session")
 var passport = require('passport')
 var LocalStrategy = require('passport-local')
 var fs = require("fs");
+var path = require('path');
 var multer = require('multer');
 var Bicycle = require("./models/bicycle.js");
 var Car = require("./models/car.js");
@@ -36,7 +37,7 @@ mongoose.connect("mongodb://localhost/VeRent", { useNewUrlParser: true, useUnifi
 // var multer = require('multer');
 // var upload = multer({ dest: './uploads' });
 
-app.use(multer({ dest: './uploads/' }).single('uploadedImage'));
+app.use(multer({ dest: './tempUploads/' }).single('uploadedImage'));
 // app.use(multer({dest:'./uploads/'}).array(...));
 // app.use(multer({dest:'./uploads/'}).fields(...));
 
@@ -82,6 +83,7 @@ passport.deserializeUser(function (id, done) {
 // ================
 
 app.get("/", function (req, res) {
+    // console.log(path);
     res.render("index.ejs", { loggedIn: req.isAuthenticated(), user: req.user });
 })
 
@@ -239,7 +241,7 @@ app.post("/addVehicle", function (req, res) {
     // newImage.img.data = fs.readFileSync(req.file.path)
     // newImage.img.contentType = 'image / png';
     // newImage.save();
-    console.log("Image has been save in the database!");
+    console.log("Image has been saved in the database!");
     Vehicle.create({
         plateNumber: req.body.plateNumber,
         model: req.body.model,
@@ -258,6 +260,13 @@ app.post("/addVehicle", function (req, res) {
             console.log(err)
         } else {
             console.log("Added a new Vehicle!")
+            fs.unlink(req.file.path, function(err) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log("File has been deleted Successfully!");
+                }
+            });
             res.redirect("/");
         }
     })
@@ -318,7 +327,9 @@ app.get("/logOut", function (req, res) {
 
 app.get('/display', function (req, res, next) {
     Vehicle.findOne({ vehicleType: "car" }, function (err, vehicle) {
-        if (err) return next(err);
+        if (err) {
+            return next(err);
+        }
         if (vehicle) {
             res.contentType(vehicle.image.contentType);
             // res.setHeader('content-type', vehicle.image.contentType);
