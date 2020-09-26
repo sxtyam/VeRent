@@ -1,3 +1,4 @@
+require('dotenv').config()
 var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
@@ -14,7 +15,8 @@ const Vehicle = require('./models/Vehicle.js');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
-mongoose.connect("mongodb://localhost/VeRent", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/VeRent', { useNewUrlParser: true, useUnifiedTopology: true })
+// mongoose.connect("mongodb://localhost/VeRent", { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 // =========================
