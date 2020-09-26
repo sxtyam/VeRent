@@ -1,16 +1,11 @@
 var mongoose = require('mongoose');
 
 var vehicleSchema = mongoose.Schema({
-    plateNumber: {
-        type: String,
-        unique: true,
-        required: true
-    },
+    plateNumber: String,
     model: String,
     vehicleType: String,
     KMsTravelled: {
         type: Number,
-        required: true
     },
     isAvailable: {
         type: Boolean,

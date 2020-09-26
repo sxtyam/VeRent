@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="stylesheets/bikes.css">
+    <link rel="stylesheet" href="/stylesheets/bikes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Document</title>
 </head>
@@ -15,7 +15,7 @@
     <body>
         <header id="mainheader">
             <div class="container">
-                <img src="images/vernet.png" alt="logo">
+                <img src="/images/vernet.png" alt="logo">
             </div>
             <div class="tagline">
                 <p> You rent a lot more than a Vehicle! </p>
@@ -33,26 +33,28 @@
         <section class="sec-container">
             <h1 class="h-primary center">Select from the options!</h1>
 
-            <a href="/bikes/add" type="button">Add bikes</a>
-
             <div class="container">
-                <% bikes.forEach(function(bike) { %>
+                <% vehicles.forEach(function(vehicle) { %>
                     <div class="card">
                         <div class="card-body">
-                            <p>Vehicle Registration Number: <%= bike.PlateNumber %></p>
-                            <p>Model: <%= bike.Model %></p>
-                            <p>Kilometers Travelled: <%= bike.KMsTravelled %></p>
-                            <p>Rating: <%= bike.Rating %></p>
+                            <% if(!(vehicle.vehicleType === "bicycle")) { %>
+                                <p>Vehicle Registration Number: <%= vehicle.plateNumber %></p>
+                                <p>Kilometers Travelled: <%= vehicle.KMsTravelled %></p>
+                            <% } %>
+                            <p>Model: <%= vehicle.model %></p>
+                            <p>Rating: <%= vehicle.rating %></p>
+                            <img src=<%= "/displayImage/" + vehicle._id %> alt="">
+                            <p>One day Rent: <%= vehicle.dailyRent %></p>
                             <p>Available Now:
-                                <% if(bike.isAvailable) { %>
+                                <% if(vehicle.isAvailable) { %>
                                     Yes
                                 <% } else { %>
                                     No
                                 <% } %>
                             </p>
                             
-                            <form id=<%= bike._id %> method="post" action=<%= "/bike/delete/" + bike._id %>></form>
-                            <a onclick="document.getElementById('<%= bike._id %>').submit();">Delete</a>
+                            <form id=<%= vehicle._id %> method="post" action=<%= "/" + vehicle.vehicleType + "/delete/" + vehicle._id %>></form>
+                            <a onclick="document.getElementById('<%= vehicle._id %>').submit();">Delete</a>
                         </div>
                     </div>
                 <% }) %>

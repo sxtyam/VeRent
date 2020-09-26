@@ -8,11 +8,7 @@ var LocalStrategy = require('passport-local')
 var fs = require("fs");
 var path = require('path');
 var multer = require('multer');
-var Bicycle = require("./models/bicycle.js");
-var Car = require("./models/car.js");
-var Bike = require("./models/bike.js");
 var User = require("./models/user.js");
-var Image = require("./models/image.js");
 const Vehicle = require('./models/Vehicle.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,19 +23,7 @@ mongoose.connect("mongodb://localhost/VeRent", { useNewUrlParser: true, useUnifi
 
 // SETTING UP PATH FOR MULTER
 
-// app.use(multer({
-//     dest: './uploads/',
-//     rename: function (fieldname, filename) {
-//         return filename;
-//     },
-// }));
-
-// var multer = require('multer');
-// var upload = multer({ dest: './uploads' });
-
 app.use(multer({ dest: './tempUploads/' }).single('uploadedImage'));
-// app.use(multer({dest:'./uploads/'}).array(...));
-// app.use(multer({dest:'./uploads/'}).fields(...));
 
 
 // =======================
@@ -83,140 +67,7 @@ passport.deserializeUser(function (id, done) {
 // ================
 
 app.get("/", function (req, res) {
-    // console.log(path);
     res.render("index.ejs", { loggedIn: req.isAuthenticated(), user: req.user });
-})
-
-// ===============
-// BIKES
-// ===============
-
-app.get("/bikes", function (req, res) {
-    Bike.find({}, function (err, foundBikes) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("bikes.ejs", { bikes: foundBikes });
-        }
-    })
-})
-
-app.get("/bikes/add", function (req, res) {
-    res.render("addBikes.ejs");
-})
-
-app.post("/bikes", function (req, res) {
-    Bike.create({
-        PlateNumber: req.body.plateNumber,
-        Model: req.body.model,
-        KMsTravelled: req.body.travelled,
-        Rating: 0,
-        isAvailable: true
-    }, function (err, newBike) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/bikes");
-        }
-    })
-})
-
-app.post("/bike/delete/:bikeId", function (req, res) {
-    Bike.deleteOne({ _id: req.params.bikeId }, function (err) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/bikes");
-        }
-    })
-})
-
-
-// ==================
-// BICYCLES
-// ==================
-
-app.get("/bicycles", function (req, res) {
-    Bicycle.find({}, function (err, foundBicycles) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("bicycles.ejs", { bicycles: foundBicycles });
-        }
-    })
-})
-
-app.get("/bicycles/add", function (req, res) {
-    res.render("addBicycles.ejs");
-})
-
-app.post("/bicycles", function (req, res) {
-    Bicycle.create({
-        Model: req.body.model,
-        Rating: 0,
-        isAvailable: true
-    }, function (err, newBicycle) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/bicycles");
-        }
-    })
-})
-
-app.post("/bicycle/delete/:bicycleId", function (req, res) {
-    Bicycle.deleteOne({ _id: req.params.bicycleId }, function (err) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/bicycles");
-        }
-    })
-})
-
-
-// ===============
-// CARS
-// ===============
-
-app.get("/cars", function (req, res) {
-    Car.find({}, function (err, foundCars) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("cars.ejs", { cars: foundCars });
-        }
-    })
-})
-
-app.get("/cars/add", function (req, res) {
-    res.render("addCars.ejs");
-})
-
-app.post("/cars", function (req, res) {
-    Car.create({
-        PlateNumber: req.body.plateNumber,
-        Model: req.body.model,
-        KMsTravelled: req.body.travelled,
-        Rating: 0,
-        isAvailable: true
-    }, function (err, newCar) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/cars");
-        }
-    })
-})
-
-app.post("/car/delete/:carId", function (req, res) {
-    Car.deleteOne({ _id: req.params.carId }, function (err) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/cars");
-        }
-    })
 })
 
 app.get("/contactUs", function (req, res) {
@@ -237,11 +88,7 @@ app.get("/addVehicle", function (req, res) {
 })
 
 app.post("/addVehicle", function (req, res) {
-    // var newImage = new Image();
-    // newImage.img.data = fs.readFileSync(req.file.path)
-    // newImage.img.contentType = 'image / png';
-    // newImage.save();
-    console.log("Image has been saved in the database!");
+    // Creating a new Vehicle Class
     Vehicle.create({
         plateNumber: req.body.plateNumber,
         model: req.body.model,
@@ -249,6 +96,7 @@ app.post("/addVehicle", function (req, res) {
         rating: 0,
         isAvailable: true,
         vehicleType: req.body.vehicleType,
+        // Adding image paprameters, which were earlier stored in req.file using multer
         image: {
             data: fs.readFileSync(req.file.path),
             contentType: 'image/png'
@@ -260,6 +108,7 @@ app.post("/addVehicle", function (req, res) {
             console.log(err)
         } else {
             console.log("Added a new Vehicle!")
+            // When Vehicle has been added into the databse, fs.unlink will delete the file stored in tempUploads folder by multer
             fs.unlink(req.file.path, function(err) {
                 if(err) {
                     console.log(err);
@@ -268,6 +117,37 @@ app.post("/addVehicle", function (req, res) {
                 }
             });
             res.redirect("/");
+        }
+    })
+})
+
+
+// ================
+// DELETE VEHICLE
+// ================
+
+app.post("/:vehicleType/delete/:vehicleId", function (req, res) {
+    Vehicle.deleteOne({ _id: req.params.vehicleId }, function (err) {
+        if (err) {
+            console.log(err);
+        } else {
+            var redirectPath = "/display/" + req.params.vehicleType + "/all";
+            res.redirect(redirectPath);
+        }
+    })
+})
+
+
+// ================
+// DISPLAY VEHICLE
+// ================
+
+app.get("/display/:vehicleType/all", function (req, res) {
+    Vehicle.find({ vehicleType: req.params.vehicleType }, function (err, foundVehicles) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("displayVehicles.ejs", { vehicles: foundVehicles });
         }
     })
 })
@@ -325,31 +205,19 @@ app.get("/logOut", function (req, res) {
 
 // Rough route
 
-app.get('/display', function (req, res, next) {
-    Vehicle.findOne({ vehicleType: "car" }, function (err, vehicle) {
+// To display a picture, do something like this
+
+app.get('/displayImage/:vehicleId', function (req, res, next) {
+    Vehicle.findById(req.params.vehicleId, function (err, vehicle) {
         if (err) {
             return next(err);
         }
         if (vehicle) {
             res.contentType(vehicle.image.contentType);
-            // res.setHeader('content-type', vehicle.image.contentType);
             res.send(vehicle.image.data);
-        } else res.send("");
+        } else res.send("No image found!");
     });
 });
-
-
-// =============
-// IMAGE UPLOAD
-// =============
-
-// app.post('/api/photo', function (req, res) {
-//     var newImage = new Image();
-//     newImage.img.data = fs.readFileSync(req.file.path)
-//     newImage.img.contentType = 'image / png';
-//     newImage.save();
-//     console.log("Image has been submitted!");
-// });
 
 
 //  ================
