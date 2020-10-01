@@ -18,11 +18,6 @@ app.use(express.static(__dirname + "/public"));
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/VeRent', { useNewUrlParser: true, useUnifiedTopology: true })
 // mongoose.connect("mongodb://localhost/VeRent", { useNewUrlParser: true, useUnifiedTopology: true });
 
-
-// =========================
-// IMAGE SAVING IN DATABASE
-// =========================
-
 // SETTING UP PATH FOR MULTER
 
 app.use(multer({ dest: './tempUploads/' }).single('uploadedImage'));
@@ -205,9 +200,9 @@ app.get("/logOut", function (req, res) {
 });
 
 
-// Rough route
-
-// To display a picture, do something like this
+// ========================
+// ROUTE TO DISPLAY IMAGE
+// ========================
 
 app.get('/displayImage/:vehicleId', function (req, res, next) {
     Vehicle.findById(req.params.vehicleId, function (err, vehicle) {
