@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var transictionSchema = mongoose.Schema({
+var transactionSchema = mongoose.Schema({
     renter: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
@@ -20,4 +20,4 @@ var transictionSchema = mongoose.Schema({
     KMsTravelled: Number
 })
 
-module.exports = mongoose.model("Bicycle", bicycleSchema);
+module.exports = mongoose.model("Transaction", transactionSchema);
