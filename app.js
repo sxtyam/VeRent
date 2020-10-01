@@ -110,7 +110,7 @@ app.post("/addVehicle", function (req, res) {
                 if(err) {
                     console.log(err);
                 } else {
-                    console.log("File has been deleted Successfully!");
+                    console.log("Temporary file has been deleted!");
                 }
             });
             res.redirect("/");
@@ -123,15 +123,27 @@ app.post("/addVehicle", function (req, res) {
 // DELETE VEHICLE
 // ================
 
-app.post("/:vehicleType/delete/:vehicleId", function (req, res) {
-    Vehicle.deleteOne({ _id: req.params.vehicleId }, function (err) {
-        if (err) {
+app.post("/delete/:vehicleId", function (req, res) {
+    Vehicle.findById(req.params.vehicleId, function(err, foundVehicle) {
+        if(err) {
             console.log(err);
-        } else {
-            var redirectPath = "/display/" + req.params.vehicleType + "/all";
-            res.redirect(redirectPath);
         }
-    })
+        if(foundVehicle) {
+            var vehicleType = foundVehicle.vehicleType;
+            Vehicle.deleteOne({ _id: req.params.vehicleId }, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Vehicle has been deleted!");
+                    var redirectPath = "/display/" + vehicleType + "/all";
+                    res.redirect(redirectPath);
+                }
+            });
+        } else {
+            console.log("Vehicle not found!");
+            res.redirect("/");
+        }
+    });
 })
 
 
