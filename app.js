@@ -10,7 +10,7 @@ var fs = require("fs");
 var path = require('path');
 var multer = require('multer');
 var User = require("./models/user.js");
-const Vehicle = require('./models/Vehicle.js');
+const Vehicle = require('./models/vehicle.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
