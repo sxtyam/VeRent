@@ -27,11 +27,11 @@
         <a href="/services">Services</a>
         <a href="/contactUs">Contact Us</a>
         <% if(loggedIn) { %>
-            <a href="/logOut">Log Out</a>
+            <a href="/logout">Log Out</a>
             <p style="color: white">Welcome, <%= user.username %></p>
         <% } else { %>
-            <a href="/signUp">Sign Up</a>
-            <a href="/logIn">Log In</a>
+            <a href="/signup">Sign Up</a>
+            <a href="/login">Log In</a>
         <% } %>
     </div>
     <section id="bodystart">

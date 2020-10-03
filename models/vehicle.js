@@ -16,10 +16,10 @@ var vehicleSchema = mongoose.Schema({
         contentType: String
     },
     dailyRent: Number,
-    transictions: [
+    transactions: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Transiction"
+            ref: "Transaction"
         }
     ],
     rating: Number

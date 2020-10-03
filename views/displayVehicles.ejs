@@ -64,16 +64,9 @@
                                 <% } %>
                             </p>
 
-                            <button id=<%= "delete" + vehicle._id %> onclick='deleteVehicleHandler("<%= vehicle._id %>")'>Delete</button>
+                            <button onclick='deleteVehicleHandler("<%= vehicle._id %>")'>Delete</button>
 
                             <a href=<%= "/display/" + vehicle._id %>>Know More</a>
-                            
-                            <!-- <form id=<%= "delete" + vehicle._id %> method="post" action=<%= "/" + vehicle.vehicleType + "/delete/" + vehicle._id %>></form>
-                            <a onclick="document.getElementById('<%= "delete" + vehicle._id %>'').submit();">Delete</a>
-
-                            <form id=<%= "knowMore" + vehicle._id %> method="post" action=<%= "/" + vehicle.vehicleType + "/more/" + vehicle._id %>></form>
-                            <a onclick="document.getElementById('<%= "knowMore" + vehicle._id %>').submit();">Know More</a> -->
-
 
                         </div>
                     </div>
