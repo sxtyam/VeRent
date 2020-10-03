@@ -10,7 +10,8 @@ var fs = require("fs");
 var path = require('path');
 var multer = require('multer');
 var User = require("./models/user.js");
-const Vehicle = require('./models/Vehicle.js');
+const Vehicle = require('./models/vehicle.js');
+const Transaction = require('./models/transaction.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
@@ -162,18 +163,65 @@ app.get("/display/:vehicleType/all", function (req, res) {
 })
 
 
+// =====================
+// DISPLAY EACH VEHICLE
+// =====================
+
+app.get("/display/:vehicleId", function(req, res) {
+    Vehicle.findById(req.params.vehicleId, function(err, foundVehicle) {
+        if(err) {
+            console.log(err);
+        } else {
+            res.render("vehicle.ejs", {vehicle: foundVehicle});
+        }
+    })
+});
+
+
+// ============
+// RENT ROUTE
+// ============
+
+app.post("/rent/:vehicleId", function(req, res) {
+    console.log("Sent a post request!");
+    if(!req.isAuthenticated()) {
+        console.log("Not authenticated!");
+        res.redirect("/login");
+    } else {
+        Vehicle.findById(req.params.vehicleId, function(err, foundVehicle) {
+            if(err) {
+                console.log(err);
+            } else {
+                Transaction.create({
+                    renter: req.user,
+                    vehicle: foundVehicle,
+                    date: Date.now()
+                }, function(err, newTransaction) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        foundVehicle.transactions.push(newTransaction);
+                        res.redirect("/");
+                    }
+                })
+            }
+        })
+    }
+})
+
+
 // ================
 // LOGIN
 // ================
 
-app.get("/logIn", function (req, res) {
-    res.render("logIn.ejs");
+app.get("/login", function (req, res) {
+    res.render("login.ejs");
 })
 
-app.post('/logIn',
+app.post('/login',
     passport.authenticate('local', {
         successRedirect: '/',
-        failureRedirect: '/logIn',
+        failureRedirect: '/login',
         failureFlash: true
     })
 );
@@ -183,11 +231,11 @@ app.post('/logIn',
 // SIGNUP
 // ================
 
-app.get("/signUp", function (req, res) {
-    res.render("signUp.ejs");
+app.get("/signup", function (req, res) {
+    res.render("signup.ejs");
 })
 
-app.post("/signUp", function (req, res) {
+app.post("/signup", function (req, res) {
     User.create({
         username: req.body.username,
         password: req.body.password
@@ -196,7 +244,7 @@ app.post("/signUp", function (req, res) {
             console.log(err)
         } else {
             console.log("Welcome " + newUser.username);
-            res.redirect("/logIn");
+            res.redirect("/login");
         }
     })
 })
@@ -206,7 +254,7 @@ app.post("/signUp", function (req, res) {
 // LOGOUT
 // ================
 
-app.get("/logOut", function (req, res) {
+app.get("/logout", function (req, res) {
     req.logout();
     res.redirect("/");
 });

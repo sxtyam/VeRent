@@ -2,9 +2,11 @@
 <html lang="en">
 
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="/stylesheets/bikes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Document</title>
@@ -37,18 +39,34 @@
                 </div>
                 <img src=<%= "/displayImage/" + vehicle._id %> alt="">
                 <% if(!(vehicle.vehicleType === "bicycle")) { %>
-                    <p>Vehicle Registration Number: <%= vehicle.plateNumber %></p>
-                    <p>Kilometers Travelled: <%= vehicle.KMsTravelled %></p>
+                <p>Vehicle Registration Number: <%= vehicle.plateNumber %></p>
+                <p>Kilometers Travelled: <%= vehicle.KMsTravelled %></p>
                 <% } %>
                 <p>Rating: <%= vehicle.rating %></p>
                 <p>One day Rent: <%= vehicle.dailyRent %></p>
                 <p>Available Now:
                     <% if(vehicle.isAvailable) { %>
-                        Yes
+                    Yes
                     <% } else { %>
-                        No
+                    No
                     <% } %>
                 </p>
+                <p>
+                    <button id="toggleButton" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
+                        aria-expanded="false" aria-controls="collapseExample">
+                        Rent it
+                    </button>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <form action=<%= "/rent/" + vehicle._id %> method="POST">
+                            <p>Are you sure you want to rent <%= vehicle.model %>?</p>
+                            <p>Daily rent: <%= vehicle.dailyRent %></p>
+                            <button type="submit" class="btn btn-success">Yes, I'm Sure</button>
+                            <button type="reset" class="btn btn-danger" onclick='document.getElementById("toggleButton").click()'>Cancel</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </section>
         <footer>
@@ -67,9 +85,13 @@
             </div>
         </footer>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
     </body>
 
 </html>
