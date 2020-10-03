@@ -156,9 +156,9 @@ app.post("/delete/:vehicleId", function (req, res) {
 })
 
 
-// ================
-// DISPLAY VEHICLE
-// ================
+// =================
+// DISPLAY VEHICLES
+// =================
 
 app.get("/display/:vehicleType/all", function (req, res) {
     Vehicle.find({ vehicleType: req.params.vehicleType }, function (err, foundVehicles) {
@@ -208,8 +208,10 @@ app.post("/rent/:vehicleId", function(req, res) {
                     if(err) {
                         console.log(err);
                     } else {
+                        console.log("New transaction has been created!");
                         foundVehicle.transactions.push(newTransaction);
                         foundVehicle.save();
+                        console.log("Added the newly created transaction in the transactions array of the vehicle!");
                         res.redirect("/");
                     }
                 })
@@ -265,6 +267,7 @@ app.post("/signup", function (req, res) {
 
 app.get("/logout", function (req, res) {
     req.logout();
+    console.log("User has been logged out successfully!");
     res.redirect("/");
 });
 
