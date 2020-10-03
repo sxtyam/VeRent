@@ -131,15 +131,23 @@ app.post("/delete/:vehicleId", function (req, res) {
         }
         if(foundVehicle) {
             var vehicleType = foundVehicle.vehicleType;
-            Vehicle.deleteOne({ _id: req.params.vehicleId }, function (err) {
-                if (err) {
+            // Before deleting the vehicle, deleting all the transactions of that vehicle (as they are not required anymore);
+            Transaction.deleteMany({vehicle: req.params.vehicleId}, function(err) {
+                if(err) {
                     console.log(err);
                 } else {
-                    console.log("Vehicle has been deleted!");
-                    var redirectPath = "/display/" + vehicleType + "/all";
-                    res.redirect(redirectPath);
+                    console.log("Transactions related to the vehicle (about to be deleted) has been deleted!");
+                    Vehicle.deleteOne({ _id: req.params.vehicleId }, function (err) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log("Vehicle has been deleted!");
+                            var redirectPath = "/display/" + vehicleType + "/all";
+                            res.redirect(redirectPath);
+                        }
+                    });
                 }
-            });
+            })
         } else {
             console.log("Vehicle not found!");
             res.redirect("/");
@@ -201,6 +209,7 @@ app.post("/rent/:vehicleId", function(req, res) {
                         console.log(err);
                     } else {
                         foundVehicle.transactions.push(newTransaction);
+                        foundVehicle.save();
                         res.redirect("/");
                     }
                 })
