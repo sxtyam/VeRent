@@ -209,12 +209,19 @@ app.post("/rent/:vehicleId", function (req, res) {
             console.log(err);
           } else {
             console.log("New transaction has been created!");
-            foundVehicle.transactions.push(newTransaction);
+            // req.user.transactions.push(newTransaction);
             foundVehicle.isAvailable = false;
             foundVehicle.save();
-            console.log("Added the newly created transaction in the transactions array of the vehicle!");
-            console.log(foundVehicle.transactions[0].vehicle.model);
-            res.redirect("/");
+            User.findById(req.user._id, function(err, foundUser) {
+              if(err) {
+                console.log(err);
+              } else {
+                foundUser.transactions.push(newTransaction);
+                console.log("Added transaction into the user database!");
+                foundUser.save();
+                res.redirect("/");
+              }
+            })
           }
         })
       }
