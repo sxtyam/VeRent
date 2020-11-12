@@ -230,12 +230,41 @@ app.post("/rent/:vehicleId", function (req, res) {
 })
 
 
-// ===========================
-// TRANSACTIONS FOR A VEHICLE
-// ===========================
+// ===============
+// PROFILE PAGE
+// ===============
 
-app.get("/transactions/:vehicleId", function (req, res) {
-
+app.get('/user/me', function(req, res) {
+  if(req.isAuthenticated) {
+    let newTransactions = [];
+    req.user.transactions.forEach((transaction) => {
+      Transaction.findById(transaction, function(err, foundTransaction) {
+        if(err) {
+          console.log(err);
+        } else {
+          Vehicle.findById(foundTransaction.vehicle, function(err, foundVehicle) {
+            if(err) {
+              console.log(err);
+            } else {
+              let newTransaction = {
+                id: foundTransaction.id,
+                date: foundTransaction.date,
+                vehicle: {
+                  model: foundVehicle.model,
+                }
+              };
+              newTransactions.push(newTransaction);
+              if(newTransactions.length === req.user.transactions.length) {
+                res.render('profile.ejs', {user: req.user, transactions: newTransactions});
+              }
+            }
+          })
+        }
+      })
+    })
+  } else {
+    res.redirect('/login');
+  }
 })
 
 

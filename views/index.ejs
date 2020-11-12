@@ -27,6 +27,7 @@
     <a href="/services">Services</a>
     <a href="/contactUs">Contact Us</a>
     <% if(loggedIn) { %>
+    <a href="/user/me">Profile</a>
     <a href="/logout">Log Out</a>
     <p style="color: white">Welcome, <%= user.username %></p>
     <% } else { %>
