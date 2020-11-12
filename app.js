@@ -29,18 +29,18 @@ app.use(multer({ dest: './tempUploads/' }).single('uploadedImage'));
 // =======================
 
 passport.use(new LocalStrategy(
-    function (username, password, done) {
-        User.findOne({ username: username }, function (err, user) {
-            if (err) { return done(err); }
-            if (!user) {
-                return done(null, false, { message: 'Incorrect username.' });
-            }
-            if (!(user.password === password)) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
-            return done(null, user);
-        });
-    }
+  function (username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!(user.password === password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
 ));
 
 app.use(express.static("public"));
@@ -50,13 +50,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser(function (user, done) {
-    done(null, user.id);
+  done(null, user.id);
 });
 
 passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-        done(err, user);
-    });
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
 });
 
 
@@ -65,15 +65,15 @@ passport.deserializeUser(function (id, done) {
 // ================
 
 app.get("/", function (req, res) {
-    res.render("index.ejs", { loggedIn: req.isAuthenticated(), user: req.user });
+  res.render("index.ejs", { loggedIn: req.isAuthenticated(), user: req.user });
 })
 
 app.get("/contactUs", function (req, res) {
-    res.render("contactUs.ejs");
+  res.render("contactUs.ejs");
 })
 
 app.get("/services", function (req, res) {
-    res.render("services.ejs");
+  res.render("services.ejs");
 })
 
 
@@ -82,41 +82,41 @@ app.get("/services", function (req, res) {
 // =============
 
 app.get("/addVehicle", function (req, res) {
-    res.render("addVehicle.ejs");
+  res.render("addVehicle.ejs");
 })
 
 app.post("/addVehicle", function (req, res) {
-    // Creating a new Vehicle Class
-    Vehicle.create({
-        plateNumber: req.body.plateNumber,
-        model: req.body.model,
-        KMsTravelled: req.body.travelled,
-        rating: 0,
-        isAvailable: true,
-        vehicleType: req.body.vehicleType,
-        // Adding image paprameters, which were earlier stored in req.file using multer
-        image: {
-            data: fs.readFileSync(req.file.path),
-            contentType: 'image/png'
-        },
-        dailyRent: req.body.dailyRent,
-        transictions: []
-    }, function (err, newVehicle) {
+  // Creating a new Vehicle Class
+  Vehicle.create({
+    plateNumber: req.body.plateNumber,
+    model: req.body.model,
+    KMsTravelled: req.body.travelled,
+    rating: 0,
+    isAvailable: true,
+    vehicleType: req.body.vehicleType,
+    // Adding image paprameters, which were earlier stored in req.file using multer
+    image: {
+      data: fs.readFileSync(req.file.path),
+      contentType: 'image/png'
+    },
+    dailyRent: req.body.dailyRent,
+    transictions: []
+  }, function (err, newVehicle) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log("Added a new Vehicle!")
+      // When Vehicle has been added into the databse, fs.unlink will delete the file stored in tempUploads folder by multer
+      fs.unlink(req.file.path, function (err) {
         if (err) {
-            console.log(err)
+          console.log(err);
         } else {
-            console.log("Added a new Vehicle!")
-            // When Vehicle has been added into the databse, fs.unlink will delete the file stored in tempUploads folder by multer
-            fs.unlink(req.file.path, function(err) {
-                if(err) {
-                    console.log(err);
-                } else {
-                    console.log("Temporary file has been deleted!");
-                }
-            });
-            res.redirect("/");
+          console.log("Temporary file has been deleted!");
         }
-    })
+      });
+      res.redirect("/");
+    }
+  })
 })
 
 
@@ -125,34 +125,34 @@ app.post("/addVehicle", function (req, res) {
 // ================
 
 app.post("/delete/:vehicleId", function (req, res) {
-    Vehicle.findById(req.params.vehicleId, function(err, foundVehicle) {
-        if(err) {
-            console.log(err);
-        }
-        if(foundVehicle) {
-            var vehicleType = foundVehicle.vehicleType;
-            // Before deleting the vehicle, deleting all the transactions of that vehicle (as they are not required anymore);
-            Transaction.deleteMany({vehicle: req.params.vehicleId}, function(err) {
-                if(err) {
-                    console.log(err);
-                } else {
-                    console.log("Transactions related to the vehicle (about to be deleted) has been deleted!");
-                    Vehicle.deleteOne({ _id: req.params.vehicleId }, function (err) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log("Vehicle has been deleted!");
-                            var redirectPath = "/display/" + vehicleType + "/all";
-                            res.redirect(redirectPath);
-                        }
-                    });
-                }
-            })
+  Vehicle.findById(req.params.vehicleId, function (err, foundVehicle) {
+    if (err) {
+      console.log(err);
+    }
+    if (foundVehicle) {
+      var vehicleType = foundVehicle.vehicleType;
+      // Before deleting the vehicle, deleting all the transactions of that vehicle (as they are not required anymore);
+      Transaction.deleteMany({ vehicle: req.params.vehicleId }, function (err) {
+        if (err) {
+          console.log(err);
         } else {
-            console.log("Vehicle not found!");
-            res.redirect("/");
+          console.log("Transactions related to the vehicle (about to be deleted) has been deleted!");
+          Vehicle.deleteOne({ _id: req.params.vehicleId }, function (err) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log("Vehicle has been deleted!");
+              var redirectPath = "/display/" + vehicleType + "/all";
+              res.redirect(redirectPath);
+            }
+          });
         }
-    });
+      })
+    } else {
+      console.log("Vehicle not found!");
+      res.redirect("/");
+    }
+  });
 })
 
 
@@ -161,13 +161,13 @@ app.post("/delete/:vehicleId", function (req, res) {
 // =================
 
 app.get("/display/:vehicleType/all", function (req, res) {
-    Vehicle.find({ vehicleType: req.params.vehicleType }, function (err, foundVehicles) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("displayVehicles.ejs", { vehicles: foundVehicles });
-        }
-    })
+  Vehicle.find({ vehicleType: req.params.vehicleType }, function (err, foundVehicles) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("displayVehicles.ejs", { vehicles: foundVehicles });
+    }
+  })
 })
 
 
@@ -175,14 +175,14 @@ app.get("/display/:vehicleType/all", function (req, res) {
 // DISPLAY EACH VEHICLE
 // =====================
 
-app.get("/display/:vehicleId", function(req, res) {
-    Vehicle.findById(req.params.vehicleId, function(err, foundVehicle) {
-        if(err) {
-            console.log(err);
-        } else {
-            res.render("vehicle.ejs", {vehicle: foundVehicle});
-        }
-    })
+app.get("/display/:vehicleId", function (req, res) {
+  Vehicle.findById(req.params.vehicleId, function (err, foundVehicle) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("vehicle.ejs", { vehicle: foundVehicle });
+    }
+  })
 });
 
 
@@ -190,34 +190,45 @@ app.get("/display/:vehicleId", function(req, res) {
 // RENT ROUTE
 // ============
 
-app.post("/rent/:vehicleId", function(req, res) {
-    console.log("Sent a post request!");
-    if(!req.isAuthenticated()) {
-        console.log("Not authenticated!");
-        res.redirect("/login");
-    } else {
-        Vehicle.findById(req.params.vehicleId, function(err, foundVehicle) {
-            if(err) {
-                console.log(err);
-            } else {
-                Transaction.create({
-                    renter: req.user,
-                    vehicle: foundVehicle,
-                    date: Date.now()
-                }, function(err, newTransaction) {
-                    if(err) {
-                        console.log(err);
-                    } else {
-                        console.log("New transaction has been created!");
-                        foundVehicle.transactions.push(newTransaction);
-                        foundVehicle.save();
-                        console.log("Added the newly created transaction in the transactions array of the vehicle!");
-                        res.redirect("/");
-                    }
-                })
-            }
+app.post("/rent/:vehicleId", function (req, res) {
+  console.log("Sent a post request!");
+  if (!req.isAuthenticated()) {
+    console.log("Not authenticated!");
+    res.redirect("/login");
+  } else {
+    Vehicle.findById(req.params.vehicleId, function (err, foundVehicle) {
+      if (err) {
+        console.log(err);
+      } else {
+        Transaction.create({
+          renter: req.user,
+          vehicle: foundVehicle,
+          date: Date.now()
+        }, function (err, newTransaction) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("New transaction has been created!");
+            foundVehicle.transactions.push(newTransaction);
+            foundVehicle.isAvailable = false;
+            foundVehicle.save();
+            console.log("Added the newly created transaction in the transactions array of the vehicle!");
+            console.log(foundVehicle.transactions[0].vehicle.model);
+            res.redirect("/");
+          }
         })
-    }
+      }
+    })
+  }
+})
+
+
+// ===========================
+// TRANSACTIONS FOR A VEHICLE
+// ===========================
+
+app.get("/transactions/:vehicleId", function (req, res) {
+
 })
 
 
@@ -226,15 +237,15 @@ app.post("/rent/:vehicleId", function(req, res) {
 // ================
 
 app.get("/login", function (req, res) {
-    res.render("login.ejs");
+  res.render("login.ejs");
 })
 
 app.post('/login',
-    passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/login',
-        failureFlash: true
-    })
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+  })
 );
 
 
@@ -243,21 +254,21 @@ app.post('/login',
 // ================
 
 app.get("/signup", function (req, res) {
-    res.render("signup.ejs");
+  res.render("signup.ejs");
 })
 
 app.post("/signup", function (req, res) {
-    User.create({
-        username: req.body.username,
-        password: req.body.password
-    }, function (err, newUser) {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log("Welcome " + newUser.username);
-            res.redirect("/login");
-        }
-    })
+  User.create({
+    username: req.body.username,
+    password: req.body.password
+  }, function (err, newUser) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log("Welcome " + newUser.username);
+      res.redirect("/login");
+    }
+  })
 })
 
 
@@ -266,9 +277,9 @@ app.post("/signup", function (req, res) {
 // ================
 
 app.get("/logout", function (req, res) {
-    req.logout();
-    console.log("User has been logged out successfully!");
-    res.redirect("/");
+  req.logout();
+  console.log("User has been logged out successfully!");
+  res.redirect("/");
 });
 
 
@@ -277,15 +288,15 @@ app.get("/logout", function (req, res) {
 // ========================
 
 app.get('/displayImage/:vehicleId', function (req, res, next) {
-    Vehicle.findById(req.params.vehicleId, function (err, vehicle) {
-        if (err) {
-            return next(err);
-        }
-        if (vehicle) {
-            res.contentType(vehicle.image.contentType);
-            res.send(vehicle.image.data);
-        } else res.send("No image found!");
-    });
+  Vehicle.findById(req.params.vehicleId, function (err, vehicle) {
+    if (err) {
+      return next(err);
+    }
+    if (vehicle) {
+      res.contentType(vehicle.image.contentType);
+      res.send(vehicle.image.data);
+    } else res.send("No image found!");
+  });
 });
 
 
@@ -294,5 +305,5 @@ app.get('/displayImage/:vehicleId', function (req, res, next) {
 // =================
 
 app.listen(3000, function () {
-    console.log("Server has been started!");
+  console.log("Server has been started!");
 })

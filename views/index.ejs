@@ -2,168 +2,165 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylesheets/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <title>MyHeading</title>
+  <title>MyHeading</title>
 </head>
 
 <body>
 
-    <header id="mainheader">
-        <div class="container">
-            <img src="images/vernet.png" alt="logo">
-        </div>
-        <div class="tagline">
-            <p> You rent a lot more than a Vehicle! </p>
-        </div>
-
-    </header>
-
-    <div class="topnav">
-        <a class="active" href="/">Home</a>
-        <a href="/services">Services</a>
-        <a href="/contactUs">Contact Us</a>
-        <% if(loggedIn) { %>
-            <a href="/logout">Log Out</a>
-            <p style="color: white">Welcome, <%= user.username %></p>
-        <% } else { %>
-            <a href="/signup">Sign Up</a>
-            <a href="/login">Log In</a>
-        <% } %>
+  <header id="mainheader">
+    <div class="container">
+      <img src="images/vernet.png" alt="logo">
     </div>
-    <section id="bodystart">
-        <h1 class="abc"> Start Your WonderFul Journey</h1>
-        <p>We simplified car rentals, so you can focus on what's important to you.</p>
+    <div class="tagline">
+      <p> You rent a lot more than a Vehicle! </p>
+    </div>
+
+  </header>
+
+  <div class="topnav">
+    <a class="active" href="/">Home</a>
+    <a href="/services">Services</a>
+    <a href="/contactUs">Contact Us</a>
+    <% if(loggedIn) { %>
+    <a href="/logout">Log Out</a>
+    <p style="color: white">Welcome, <%= user.username %></p>
+    <% } else { %>
+    <a href="/signup">Sign Up</a>
+    <a href="/login">Log In</a>
+    <% } %>
+  </div>
+  <section id="bodystart">
+    <h1 class="abc"> Start Your WonderFul Journey</h1>
+    <p>We simplified car rentals, so you can focus on what's important to you.</p>
+  </section>
+  <div class="forborder">
+    <section id="servs">
+      <h1 class="preheading">Easy & Quick Online Booking. Clean & Well Maintained Fleet.A Vehicle for every need!
+      </h1>
+
+      <a href="/addVehicle">Add Vehicle</a>
+
+      <div class="options">
+        <div class="Cars">
+
+          <img src="images/shutterstock_1158115840-scaled.jpg" alt="carimage">
+
+          <p> We have a range of cars, so something will perfectly fit your trip</p>
+          <h1> Cars </h1>
+        </div>
+        <a href="/display/car/all"><button type="button" class="block">Block Button</button></a>
+        <div class="bikes">
+
+          <img src="images/royal-enfield-himalayan-himalayan-enfield-motorcycle.jpg" alt="bikeimage">
+
+          <p>We specialize in motorcycle rental, from short-term motorbike rental to long-term hiring or
+            leasing, from bike tours to bike maintenance and service – we have it all
+          </p>
+          <h1> Bikes </h1>
+        </div>
+        <a href="/display/bike/all"><button type="button" class="block">Block Button</button></a>
+        <div class="bicycles">
+
+          <img src="images/imgimg.jpg" alt="bicycle image">
+
+          <p>
+            With its perfect ergonomic designed bicycles and GPS enabled locks, VeRent is the perfect smart
+            bicycle available in the market for users.
+          </p>
+          <h1> Bicycles</h1>
+        </div>
+        <a href="/display/bicycle/all"><button type="button" class="block" onclick="">Block Button</button></a>
+      </div>
     </section>
-    <div class="forborder">
-        <section id="servs">
-            <h1 class="preheading">Easy & Quick Online Booking. Clean & Well Maintained Fleet.A Vehicle for every need!
-            </h1>
+  </div>
+  <div class="testinomials">
+    <div class="inner">
+      <h1>Testinomials</h1>
+      <div class="border"></div>
 
-            <a href="/addVehicle">Add Vehicle</a>
 
-            <div class="options">
-                <div class="Cars">
-
-                    <img src="images/shutterstock_1158115840-scaled.jpg" alt="carimage">
-
-                    <p> We have a range of cars, so something will perfectly fit your trip</p>
-                    <h1> Cars </h1>
-                </div>
-                <a href="/display/car/all"><button type="button" class="block">Block Button</button></a>
-                <div class="bikes">
-
-                    <img src="images/royal-enfield-himalayan-himalayan-enfield-motorcycle.jpg" alt="bikeimage">
-
-                    <p>We specialize in motorcycle rental, from short-term motorbike rental to long-term hiring or
-                        leasing, from bike tours to bike maintenance and service – we have it all
-                    </p>
-                    <h1> Bikes </h1>
-                </div>
-                <a href="/display/bike/all"><button type="button" class="block">Block Button</button></a>
-                <div class="bicycles">
-
-                    <img src="images/imgimg.jpg" alt="bicycle image">
-
-                    <p>
-                        With its perfect ergonomic designed bicycles and GPS enabled locks, VeRent is the perfect smart
-                        bicycle available in the market for users.
-                    </p>
-                    <h1> Bicycles</h1>
-                </div>
-                <a href="/display/bicycle/all"><button type="button" class="block" onclick="">Block Button</button></a>
+      <div class="row">
+        <div class="col">
+          <div class="testinomial">
+            <img src="images/purepng.com-flower-vectorflower-clipart-vector-floral-961524679762iqtpl.png" alt="picture">
+            <div class="name">
+              full name
             </div>
-        </section>
-    </div>
-    <div class="testinomials">
-        <div class="inner">
-            <h1>Testinomials</h1>
-            <div class="border"></div>
-
-
-            <div class="row">
-                <div class="col">
-                    <div class="testinomial">
-                        <img src="images/purepng.com-flower-vectorflower-clipart-vector-floral-961524679762iqtpl.png"
-                            alt="picture">
-                        <div class="name">
-                            full name
-                        </div>
-                        <div class="stars">
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <p>i will add muxh content here</p>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="testinomial">
-                        <img src="images/purepng.com-flower-vectorflower-clipart-vector-floral-961524679762iqtpl.png"
-                            alt="picture">
-                        <div class="name">
-                            full name
-                        </div>
-                        <div class="stars">
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <p>i will add muxh content here</p>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="testinomial">
-                        <img src="images/purepng.com-flower-vectorflower-clipart-vector-floral-961524679762iqtpl.png"
-                            alt="picture">
-                        <div class="name">
-                            full name
-                        </div>
-                        <div class="stars">
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <p>i will add muxh content here</p>
-                    </div>
-                </div>
-
+            <div class="stars">
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
             </div>
+            <p>i will add muxh content here</p>
+          </div>
         </div>
-    </div>
-    <footer>
-        <div class="footermaindiv">
-            <div class="leftcol">
-                <h1>VeRent</h1>
-                <div class="socialmediaicons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-
-                </div>
-                <p class="rights-text">
-                    &#169 2020 Created By Dtuites All rights reserved</p>
+        <div class="col">
+          <div class="testinomial">
+            <img src="images/purepng.com-flower-vectorflower-clipart-vector-floral-961524679762iqtpl.png" alt="picture">
+            <div class="name">
+              full name
             </div>
-            <div class="right-col">
-                <h1>Our Newsletter</h1>
-                <div class="border"></div>
-                <p>Enter your Email to get our News and updates</p>
-                <form action="" class="newsletter-form">
-                    <input type="text" class="txtb" placeholder="Enter your Email id">
-                    <input type="submit" class="btn" value="submit">
-                </form>
+            <div class="stars">
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
             </div>
+            <p>i will add muxh content here</p>
+          </div>
         </div>
-    </footer>
+        <div class="col">
+          <div class="testinomial">
+            <img src="images/purepng.com-flower-vectorflower-clipart-vector-floral-961524679762iqtpl.png" alt="picture">
+            <div class="name">
+              full name
+            </div>
+            <div class="stars">
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+            <p>i will add muxh content here</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footermaindiv">
+      <div class="leftcol">
+        <h1>VeRent</h1>
+        <div class="socialmediaicons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+
+        </div>
+        <p class="rights-text">
+          &#169 2020 Created By Dtuites All rights reserved</p>
+      </div>
+      <div class="right-col">
+        <h1>Our Newsletter</h1>
+        <div class="border"></div>
+        <p>Enter your Email to get our News and updates</p>
+        <form action="" class="newsletter-form">
+          <input type="text" class="txtb" placeholder="Enter your Email id">
+          <input type="submit" class="btn" value="submit">
+        </form>
+      </div>
+    </div>
+  </footer>
 
 </body>
 
