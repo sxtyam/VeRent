@@ -32,44 +32,27 @@
       <a href="/signUp">Sign Up</a>
       <a href="/logIn">Log In</a>
     </div>
-    <section class="sec-container">
-      <div class="container">
-        <div class="jumbotron">
-          <h1><%= vehicle.model %></h1>
+    <div class='container'>
+      <form action=<%= '/return/' + transaction._id %> method="POST">
+        <div class="form-group">
+          <label for="review">Review</label>
+          <input type="text" class="form-control" id="review" name="review">
         </div>
-        <img src=<%= "/displayImage/" + vehicle._id %> alt="">
-        <% if(!(vehicle.vehicleType === "bicycle")) { %>
-        <p>Vehicle Registration Number: <%= vehicle.plateNumber %></p>
-        <p>Kilometers Travelled: <%= vehicle.KMsTravelled %></p>
-        <% } %>
-        <p>Rating: <%= vehicle.rating %></p>
-        <p>One day Rent: <%= vehicle.dailyRent %></p>
-        <p>Available Now:
-          <% if(vehicle.isAvailable) { %>
-          Yes
-          <% } else { %>
-          No
-          <% } %>
-        </p>
-        <p>
-          <button id="toggleButton" class="btn btn-primary" type="button" data-toggle="collapse"
-            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Rent it
-          </button>
-        </p>
-        <div class="collapse" id="collapseExample">
-          <div class="card card-body">
-            <form action=<%= "/rent/" + vehicle._id %> method="POST">
-              <p>Are you sure you want to rent <%= vehicle.model %>?</p>
-              <p>Daily rent: <%= vehicle.dailyRent %></p>
-              <button type="submit" class="btn btn-success">Yes, I'm Sure</button>
-              <button type="reset" class="btn btn-danger"
-                onclick='document.getElementById("toggleButton").click()'>Cancel</button>
-            </form>
-          </div>
+        <div class="form-group">
+          <label for="rating">Rating</label>
+          <input type="number" class="form-control" id="rating" aria-describedby="ratinghelp" name='rating'>
+          <small id="ratinghelp" class="form-text text-muted">Rate your experience with this vehicle, out of 5.</small>
         </div>
-      </div>
-    </section>
+        <div class="form-group">
+          <label for="kmsTravelled">Kms Travelled</label>
+          <input type="number" class="form-control" id="kmsTravelled" name='kmsTravelled'>
+        </div>
+        <p>You are returning the vehice after: <%= Math.ceil((Date.now() - transaction.date)/(24*60*60*1000)) %> day(s)</p>
+        <p>Total cost: Rs <%= Math.ceil((Date.now() - transaction.date)/(24*60*60*1000)) * vehicle.dailyRent %></p>
+        <button type="submit" class="btn btn-success">Submit</button>
+        <a href="/user/me">Cancel</a>
+      </form>
+    </div>
     <footer>
       <div class="footermaindiv">
         <div class="leftcol">

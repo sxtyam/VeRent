@@ -32,44 +32,19 @@
       <a href="/signUp">Sign Up</a>
       <a href="/logIn">Log In</a>
     </div>
-    <section class="sec-container">
-      <div class="container">
-        <div class="jumbotron">
-          <h1><%= vehicle.model %></h1>
-        </div>
-        <img src=<%= "/displayImage/" + vehicle._id %> alt="">
-        <% if(!(vehicle.vehicleType === "bicycle")) { %>
-        <p>Vehicle Registration Number: <%= vehicle.plateNumber %></p>
-        <p>Kilometers Travelled: <%= vehicle.KMsTravelled %></p>
-        <% } %>
-        <p>Rating: <%= vehicle.rating %></p>
-        <p>One day Rent: <%= vehicle.dailyRent %></p>
-        <p>Available Now:
-          <% if(vehicle.isAvailable) { %>
-          Yes
-          <% } else { %>
-          No
-          <% } %>
-        </p>
-        <p>
-          <button id="toggleButton" class="btn btn-primary" type="button" data-toggle="collapse"
-            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Rent it
-          </button>
-        </p>
-        <div class="collapse" id="collapseExample">
-          <div class="card card-body">
-            <form action=<%= "/rent/" + vehicle._id %> method="POST">
-              <p>Are you sure you want to rent <%= vehicle.model %>?</p>
-              <p>Daily rent: <%= vehicle.dailyRent %></p>
-              <button type="submit" class="btn btn-success">Yes, I'm Sure</button>
-              <button type="reset" class="btn btn-danger"
-                onclick='document.getElementById("toggleButton").click()'>Cancel</button>
-            </form>
+    <div>
+      <h2>UserName = <%= user.username %> </h2>
+      <h3>Transactions</h3>
+      <% transactions.forEach((transaction) => { %>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= transaction.vehicle.model %></h5>
+            <p class="card-text">Rented on: <%= transaction.date %></p>
+            <a href=<%= '/return/' + transaction.id %>>Return Vehicle</a>
           </div>
         </div>
-      </div>
-    </section>
+      <% }) %>
+    </div>
     <footer>
       <div class="footermaindiv">
         <div class="leftcol">
