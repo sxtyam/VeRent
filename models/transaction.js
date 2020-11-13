@@ -15,8 +15,10 @@ var transactionSchema = mongoose.Schema({
   },
   returnedOn: Date,
   totalCost: Number,
-  rating: Number,
-  review: String,
+  review: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Review"
+  },
   KMsTravelled: Number
 })
 

@@ -12,6 +12,7 @@ var multer = require('multer');
 var User = require("./models/user.js");
 const Vehicle = require('./models/vehicle.js');
 const Transaction = require('./models/transaction.js');
+const Review = require('./models/review.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
@@ -265,6 +266,75 @@ app.get('/user/me', function(req, res) {
   } else {
     res.redirect('/login');
   }
+})
+
+
+// ================
+// RETURN VEHICLE
+// ================
+
+app.get('/return/:transactionId', function(req, res) {
+  Transaction.findById(req.params.transactionId, function(err, foundTransaction) {
+    if(err) {
+      console.log(err);
+    } else {
+      Vehicle.findById(foundTransaction.vehicle, function(err, foundVehicle) {
+        if(err) {
+          console.log(err);
+        } else {
+          res.render('returnVehicle.ejs', {transaction: foundTransaction, vehicle: foundVehicle});
+        }
+      })
+    }
+  })
+})
+
+
+// ==================================
+// RETURNING VEHICLE IN THE DATABASE
+// ==================================
+
+app.post('/return/:transactionId', function(req, res) {
+  // Changing strings returned from the form into integers
+  req.body.kmsTravelled = parseInt(req.body.kmsTravelled);
+  req.body.rating = parseInt(req.body.rating);
+  Transaction.findById(req.params.transactionId, function(err, foundTransaction) {
+    if(err) {
+      console.log(err);
+    } else {
+      Vehicle.findById(foundTransaction.vehicle, function(err, foundVehicle) {
+        if(err) {
+          console.log(err);
+        } else {
+          Review.create({
+            review: req.body.review,
+            rating: req.body.rating,
+            transaction: foundTransaction
+          }, function(err, newReview) {
+            if(err) {
+              console.log(err)
+            } else {
+              foundVehicle.reviews.push(newReview);
+              foundVehicle.KMsTravelled = foundVehicle.KMsTravelled + req.body.kmsTravelled;
+              let oldTotalRating = (foundVehicle.rating * (foundVehicle.reviews.length - 1));
+              oldTotalRating += req.body.rating;
+              let newRating = oldTotalRating/(foundVehicle.reviews.length);
+              foundVehicle.rating = newRating;
+              foundVehicle.isAvailable = true;
+              foundVehicle.save();
+
+              foundTransaction.returnedOn = Date.now();
+              foundTransaction.totalCost = Math.ceil((Date.now() - foundTransaction.date)/(24*60*60*1000)) * foundVehicle.dailyRent;
+              foundTransaction.review = newReview;
+              foundTransaction.KMsTravelled = req.body.kmsTravelled;
+              foundTransaction.save();
+              res.redirect('/user/me');
+            }
+          })
+        }
+      })
+    }
+  })
 })
 
 

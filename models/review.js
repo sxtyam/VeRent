@@ -9,4 +9,4 @@ var reviewSchema = mongoose.Schema({
   }
 })
 
-module.exports = mongoose.model("Review", vehicleSchema);
+module.exports = mongoose.model("Review", reviewSchema);
