@@ -22,3 +22,11 @@ body {
 .nav-link {
   display: inline;
 }
+
+.container-fluid {
+  padding: 20px 40px;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+}

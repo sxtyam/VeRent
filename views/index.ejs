@@ -12,7 +12,8 @@
   <link rel="stylesheet" href="stylesheets/index.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+    integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
   <title>VeRent</title>
 </head>
 
@@ -24,6 +25,9 @@
     </a>
     <p class='tagline'>You rent more than a Vehicle!</p>
     <div>
+      <% if(admin) { %>
+      <a class='nav-link' href="/addVehicle">Add Vehcile <i class="fas fa-plus"></i></a>
+      <% } %>
       <% if(loggedIn) { %>
       <a class='nav-link' href="/user/me">Profile <i class="far fa-user"></i></a>
       <a class='nav-link' href="/logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
@@ -33,6 +37,56 @@
       <% } %>
     </div>
   </nav>
+
+  <!-- Body -->
+  <div class='container-fluid'>
+    <div id="front-card" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#front-card" data-slide-to="0" class="active"></li>
+        <li data-target="#front-card" data-slide-to="1"></li>
+        <li data-target="#front-card" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <a href='/display/bike/all'>
+            <img src="images/bike.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h1>Bikes</h1>
+              <p>We specialize in motorcycle rental, from short-term motorbike rental to long-term hiring or
+                leasing, from bike tours to bike maintenance and service – we have it all!</p>
+            </div>
+          </a>
+        </div>
+        <div class="carousel-item">
+          <a href='/display/car/all'>
+            <img src="images/car.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h1>Cars</h1>
+              <p>We have a range of cars, so something will perfectly fit your trip!</p>
+            </div>
+          </a>
+        </div>
+        <div class="carousel-item">
+          <a href='/display/bicycle/all'>
+            <img src="images/bicycle.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h1>Bicycles</h1>
+              <p>With its perfect ergonomic designed bicycles and GPS enabled locks, VeRent is the perfect smart
+                bicycle available in the market for users!</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#front-card" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#front-card" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
 
   <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -77,7 +131,6 @@
     <% if(loggedIn) { %>
     <a href="/user/me">Profile</a>
     <a href="/logout">Log Out</a>
-    <p style="color: white">Welcome, <%= user.username %></p>
     <% } else { %>
     <a href="/signup">Sign Up</a>
     <a href="/login">Log In</a>

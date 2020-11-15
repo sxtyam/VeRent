@@ -66,7 +66,7 @@ passport.deserializeUser(function (id, done) {
 // ================
 
 app.get("/", function (req, res) {
-  res.render("index.ejs", { loggedIn: req.isAuthenticated(), user: req.user });
+  res.render("index.ejs", { loggedIn: req.isAuthenticated(), admin: (req.user && req.user.username === 'admin') });
 })
 
 app.get("/contactUs", function (req, res) {
