@@ -69,14 +69,6 @@ app.get("/", function (req, res) {
   res.render("index.ejs", { loggedIn: req.isAuthenticated(), admin: (req.user && req.user.username === 'admin') });
 })
 
-app.get("/contactUs", function (req, res) {
-  res.render("contactUs.ejs");
-})
-
-app.get("/services", function (req, res) {
-  res.render("services.ejs");
-})
-
 
 // =============
 // ADD VEHICLE
@@ -162,11 +154,15 @@ app.post("/delete/:vehicleId", function (req, res) {
 // =================
 
 app.get("/display/:vehicleType/all", function (req, res) {
-  Vehicle.find({ vehicleType: req.params.vehicleType }, function (err, foundVehicles) {
+  Vehicle.find({ vehicleType: req.params.vehicleType, isAvailable: true }, function (err, foundVehicles) {
     if (err) {
       console.log(err);
     } else {
-      res.render("displayVehicles.ejs", { vehicles: foundVehicles });
+      res.render("displayVehicles.ejs", {
+        vehicles: foundVehicles,
+        loggedIn: req.isAuthenticated(),
+        admin: (req.user && req.user.username === 'admin')
+      });
     }
   })
 })
