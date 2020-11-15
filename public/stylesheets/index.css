@@ -24,9 +24,13 @@ body {
 }
 
 .container-fluid {
-  padding: 20px 40px;
+  padding: 40px 80px;
 }
 
 .carousel-caption {
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.carousel-inner {
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
 }
