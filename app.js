@@ -177,7 +177,34 @@ app.get("/display/:vehicleId", function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render("vehicle.ejs", { vehicle: foundVehicle });
+      let foundReviews = [];
+      if(foundVehicle.reviews.length === 0) {
+        res.render("vehicle.ejs", {
+          vehicle: foundVehicle,
+          loggedIn: req.isAuthenticated(),
+          admin: (req.user && req.user.username === 'admin'),
+          reviews: foundReviews
+        });
+      }
+      foundVehicle.reviews.forEach((review) => {
+        Review.findById(review, function(err, foundReview) {
+          if(err) {
+            console.log(err);
+          } else {
+            console.log("Found Review:");
+            console.log(foundReview);
+            foundReviews.push(foundReview);
+            if(foundReviews.length === foundVehicle.reviews.length) {
+              res.render("vehicle.ejs", {
+                vehicle: foundVehicle,
+                loggedIn: req.isAuthenticated(),
+                admin: (req.user && req.user.username === 'admin'),
+                reviews: foundReviews
+              });
+            }
+          }
+        })
+      });
     }
   })
 });
@@ -206,7 +233,6 @@ app.post("/rent/:vehicleId", function (req, res) {
             console.log(err);
           } else {
             console.log("New transaction has been created!");
-            // req.user.transactions.push(newTransaction);
             foundVehicle.isAvailable = false;
             foundVehicle.save();
             User.findById(req.user._id, function(err, foundUser) {
@@ -234,6 +260,9 @@ app.post("/rent/:vehicleId", function (req, res) {
 app.get('/user/me', function(req, res) {
   if(req.isAuthenticated) {
     let newTransactions = [];
+    if(req.user.transactions.length === 0) {
+      res.render('profile.ejs', {user: req.user, transactions: newTransactions});
+    }
     req.user.transactions.forEach((transaction) => {
       Transaction.findById(transaction, function(err, foundTransaction) {
         if(err) {
@@ -305,7 +334,8 @@ app.post('/return/:transactionId', function(req, res) {
           Review.create({
             review: req.body.review,
             rating: req.body.rating,
-            transaction: foundTransaction
+            transaction: foundTransaction,
+            user: req.user.username
           }, function(err, newReview) {
             if(err) {
               console.log(err)
