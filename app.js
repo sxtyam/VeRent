@@ -178,7 +178,7 @@ app.get("/display/:vehicleId", function (req, res) {
       console.log(err);
     } else {
       let foundReviews = [];
-      if(foundVehicle.reviews.length === 0) {
+      if (foundVehicle.reviews.length === 0) {
         res.render("vehicle.ejs", {
           vehicle: foundVehicle,
           loggedIn: req.isAuthenticated(),
@@ -187,14 +187,14 @@ app.get("/display/:vehicleId", function (req, res) {
         });
       }
       foundVehicle.reviews.forEach((review) => {
-        Review.findById(review, function(err, foundReview) {
-          if(err) {
+        Review.findById(review, function (err, foundReview) {
+          if (err) {
             console.log(err);
           } else {
             console.log("Found Review:");
             console.log(foundReview);
             foundReviews.push(foundReview);
-            if(foundReviews.length === foundVehicle.reviews.length) {
+            if (foundReviews.length === foundVehicle.reviews.length) {
               res.render("vehicle.ejs", {
                 vehicle: foundVehicle,
                 loggedIn: req.isAuthenticated(),
@@ -235,8 +235,8 @@ app.post("/rent/:vehicleId", function (req, res) {
             console.log("New transaction has been created!");
             foundVehicle.isAvailable = false;
             foundVehicle.save();
-            User.findById(req.user._id, function(err, foundUser) {
-              if(err) {
+            User.findById(req.user._id, function (err, foundUser) {
+              if (err) {
                 console.log(err);
               } else {
                 foundUser.transactions.push(newTransaction);
@@ -257,31 +257,62 @@ app.post("/rent/:vehicleId", function (req, res) {
 // PROFILE PAGE
 // ===============
 
-app.get('/user/me', function(req, res) {
-  if(req.isAuthenticated) {
+app.get('/user/me', function (req, res) {
+  if (req.isAuthenticated) {
     let newTransactions = [];
-    if(req.user.transactions.length === 0) {
-      res.render('profile.ejs', {user: req.user, transactions: newTransactions});
+    if (req.user.transactions.length === 0) {
+      res.render('profile.ejs', {
+        user: req.user,
+        transactions: newTransactions,
+        admin: (req.user && req.user.username === 'admin')
+      });
     }
     req.user.transactions.forEach((transaction) => {
-      Transaction.findById(transaction, function(err, foundTransaction) {
-        if(err) {
+      Transaction.findById(transaction, function (err, foundTransaction) {
+        if (err) {
           console.log(err);
         } else {
-          Vehicle.findById(foundTransaction.vehicle, function(err, foundVehicle) {
-            if(err) {
+          Vehicle.findById(foundTransaction.vehicle, function (err, foundVehicle) {
+            if (err) {
               console.log(err);
             } else {
               let newTransaction = {
                 id: foundTransaction.id,
                 date: foundTransaction.date,
+                returnedOn: foundTransaction.returnedOn,
                 vehicle: {
                   model: foundVehicle.model,
                 }
               };
-              newTransactions.push(newTransaction);
-              if(newTransactions.length === req.user.transactions.length) {
-                res.render('profile.ejs', {user: req.user, transactions: newTransactions});
+              if (foundTransaction.returnedOn) {
+                Review.findById(foundTransaction.review, function (err, foundReview) {
+                  let review = {
+                    review: foundReview.review,
+                    rating: foundReview.rating
+                  }
+                  newTransaction = {
+                    ...newTransaction,
+                    review,
+                    totalCost: foundTransaction.totalCost
+                  }
+                  newTransactions.push(newTransaction);
+                  if (newTransactions.length === req.user.transactions.length) {
+                    res.render('profile.ejs', {
+                      user: req.user,
+                      transactions: newTransactions,
+                      admin: (req.user && req.user.username === 'admin')
+                    });
+                  }
+                })
+              } else {
+                newTransactions.push(newTransaction);
+                if (newTransactions.length === req.user.transactions.length) {
+                  res.render('profile.ejs', {
+                    user: req.user,
+                    transactions: newTransactions,
+                    admin: (req.user && req.user.username === 'admin')
+                  });
+                }
               }
             }
           })
@@ -298,16 +329,16 @@ app.get('/user/me', function(req, res) {
 // RETURN VEHICLE
 // ================
 
-app.get('/return/:transactionId', function(req, res) {
-  Transaction.findById(req.params.transactionId, function(err, foundTransaction) {
-    if(err) {
+app.get('/return/:transactionId', function (req, res) {
+  Transaction.findById(req.params.transactionId, function (err, foundTransaction) {
+    if (err) {
       console.log(err);
     } else {
-      Vehicle.findById(foundTransaction.vehicle, function(err, foundVehicle) {
-        if(err) {
+      Vehicle.findById(foundTransaction.vehicle, function (err, foundVehicle) {
+        if (err) {
           console.log(err);
         } else {
-          res.render('returnVehicle.ejs', {transaction: foundTransaction, vehicle: foundVehicle});
+          res.render('returnVehicle.ejs', { transaction: foundTransaction, vehicle: foundVehicle });
         }
       })
     }
@@ -319,16 +350,16 @@ app.get('/return/:transactionId', function(req, res) {
 // RETURNING VEHICLE IN THE DATABASE
 // ==================================
 
-app.post('/return/:transactionId', function(req, res) {
+app.post('/return/:transactionId', function (req, res) {
   // Changing strings returned from the form into integers
   req.body.kmsTravelled = parseInt(req.body.kmsTravelled);
   req.body.rating = parseInt(req.body.rating);
-  Transaction.findById(req.params.transactionId, function(err, foundTransaction) {
-    if(err) {
+  Transaction.findById(req.params.transactionId, function (err, foundTransaction) {
+    if (err) {
       console.log(err);
     } else {
-      Vehicle.findById(foundTransaction.vehicle, function(err, foundVehicle) {
-        if(err) {
+      Vehicle.findById(foundTransaction.vehicle, function (err, foundVehicle) {
+        if (err) {
           console.log(err);
         } else {
           Review.create({
@@ -336,21 +367,21 @@ app.post('/return/:transactionId', function(req, res) {
             rating: req.body.rating,
             transaction: foundTransaction,
             user: req.user.username
-          }, function(err, newReview) {
-            if(err) {
+          }, function (err, newReview) {
+            if (err) {
               console.log(err)
             } else {
               foundVehicle.reviews.push(newReview);
               foundVehicle.KMsTravelled = foundVehicle.KMsTravelled + req.body.kmsTravelled;
               let oldTotalRating = (foundVehicle.rating * (foundVehicle.reviews.length - 1));
               oldTotalRating += req.body.rating;
-              let newRating = oldTotalRating/(foundVehicle.reviews.length);
+              let newRating = oldTotalRating / (foundVehicle.reviews.length);
               foundVehicle.rating = newRating;
               foundVehicle.isAvailable = true;
               foundVehicle.save();
 
               foundTransaction.returnedOn = Date.now();
-              foundTransaction.totalCost = Math.ceil((Date.now() - foundTransaction.date)/(24*60*60*1000)) * foundVehicle.dailyRent;
+              foundTransaction.totalCost = Math.ceil((Date.now() - foundTransaction.date) / (24 * 60 * 60 * 1000)) * foundVehicle.dailyRent;
               foundTransaction.review = newReview;
               foundTransaction.KMsTravelled = req.body.kmsTravelled;
               foundTransaction.save();

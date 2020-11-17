@@ -68,3 +68,11 @@ body {
 #reviews h1 {
   margin: 10px;
 }
+
+#transactions {
+  margin-top: 30px;
+}
+
+#transactions .card {
+  margin: 20px 0;
+}
