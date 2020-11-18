@@ -9,6 +9,7 @@ var LocalStrategy = require('passport-local')
 var fs = require("fs");
 var path = require('path');
 var multer = require('multer');
+var flash = require('connect-flash');
 var User = require("./models/user.js");
 const Vehicle = require('./models/vehicle.js');
 const Transaction = require('./models/transaction.js');
@@ -49,6 +50,7 @@ app.use(session({ secret: "Shhhh! This is a secret!" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
@@ -400,16 +402,25 @@ app.post('/return/:transactionId', function (req, res) {
 // ================
 
 app.get("/login", function (req, res) {
-  res.render("login.ejs");
+  res.render("login.ejs", { failedLogin: false });
 })
 
 app.post('/login',
   passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/login',
+    failureRedirect: '/failedlogin',
     failureFlash: true
   })
 );
+
+
+// =================
+// FAILED LOGIN
+// =================
+
+app.get('/failedlogin', function (req, res) {
+  res.render('login.ejs', { failedLogin: true });
+})
 
 
 // ================
@@ -417,19 +428,31 @@ app.post('/login',
 // ================
 
 app.get("/signup", function (req, res) {
-  res.render("signup.ejs");
+  res.render("signup.ejs", { failedSignup: false });
 })
 
 app.post("/signup", function (req, res) {
-  User.create({
-    username: req.body.username,
-    password: req.body.password
-  }, function (err, newUser) {
-    if (err) {
-      console.log(err)
+  console.log("entering");
+  User.findOne({ username: req.body.username }, function(err, foundUser) {
+    if(err) {
+      console.log(err);
     } else {
-      console.log("Welcome " + newUser.username);
-      res.redirect("/login");
+      if(foundUser) {
+        res.render('signup.ejs', { failedSignup: true });
+      } else {
+        User.create({
+          fullname: req.body.fullname,
+          username: req.body.username,
+          password: req.body.password
+        }, function (err, newUser) {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log("Welcome " + newUser.username);
+            res.redirect("/login");
+          }
+        })
+      }
     }
   })
 })

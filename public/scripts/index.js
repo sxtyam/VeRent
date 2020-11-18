@@ -4,3 +4,13 @@ var deleteVehicleHandler = function (vehicleId) {
     location.reload();
   });
 }
+
+function formChangeHandler() {
+  if (document.getElementById("bicycle").checked) {
+    document.getElementById("plateNumberDiv").style.display = "none";
+    document.getElementById("travelledDiv").style.display = "none";
+  } else {
+    document.getElementById("plateNumberDiv").style.display = "block";
+    document.getElementById("travelledDiv").style.display = "block";
+  }
+}
