@@ -14,3 +14,8 @@ function formChangeHandler() {
     document.getElementById("travelledDiv").style.display = "block";
   }
 }
+
+var inputFile = document.getElementById('customFile');
+inputFile.addEventListener('change', (e) => {
+  document.getElementById('file-input-label').innerText = inputFile.files[0].name;
+})
