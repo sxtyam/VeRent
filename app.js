@@ -9,6 +9,7 @@ var LocalStrategy = require('passport-local')
 var fs = require("fs");
 var path = require('path');
 var multer = require('multer');
+var flash = require('connect-flash');
 var User = require("./models/user.js");
 const Vehicle = require('./models/vehicle.js');
 const Transaction = require('./models/transaction.js');
@@ -49,6 +50,7 @@ app.use(session({ secret: "Shhhh! This is a secret!" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
@@ -66,15 +68,7 @@ passport.deserializeUser(function (id, done) {
 // ================
 
 app.get("/", function (req, res) {
-  res.render("index.ejs", { loggedIn: req.isAuthenticated(), user: req.user });
-})
-
-app.get("/contactUs", function (req, res) {
-  res.render("contactUs.ejs");
-})
-
-app.get("/services", function (req, res) {
-  res.render("services.ejs");
+  res.render("index.ejs", { loggedIn: req.isAuthenticated(), admin: (req.user && req.user.username === 'admin') });
 })
 
 
@@ -162,11 +156,15 @@ app.post("/delete/:vehicleId", function (req, res) {
 // =================
 
 app.get("/display/:vehicleType/all", function (req, res) {
-  Vehicle.find({ vehicleType: req.params.vehicleType }, function (err, foundVehicles) {
+  Vehicle.find({ vehicleType: req.params.vehicleType, isAvailable: true }, function (err, foundVehicles) {
     if (err) {
       console.log(err);
     } else {
-      res.render("displayVehicles.ejs", { vehicles: foundVehicles });
+      res.render("displayVehicles.ejs", {
+        vehicles: foundVehicles,
+        loggedIn: req.isAuthenticated(),
+        admin: (req.user && req.user.username === 'admin')
+      });
     }
   })
 })
@@ -181,7 +179,34 @@ app.get("/display/:vehicleId", function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render("vehicle.ejs", { vehicle: foundVehicle });
+      let foundReviews = [];
+      if (foundVehicle.reviews.length === 0) {
+        res.render("vehicle.ejs", {
+          vehicle: foundVehicle,
+          loggedIn: req.isAuthenticated(),
+          admin: (req.user && req.user.username === 'admin'),
+          reviews: foundReviews
+        });
+      }
+      foundVehicle.reviews.forEach((review) => {
+        Review.findById(review, function (err, foundReview) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("Found Review:");
+            console.log(foundReview);
+            foundReviews.push(foundReview);
+            if (foundReviews.length === foundVehicle.reviews.length) {
+              res.render("vehicle.ejs", {
+                vehicle: foundVehicle,
+                loggedIn: req.isAuthenticated(),
+                admin: (req.user && req.user.username === 'admin'),
+                reviews: foundReviews
+              });
+            }
+          }
+        })
+      });
     }
   })
 });
@@ -210,11 +235,10 @@ app.post("/rent/:vehicleId", function (req, res) {
             console.log(err);
           } else {
             console.log("New transaction has been created!");
-            // req.user.transactions.push(newTransaction);
             foundVehicle.isAvailable = false;
             foundVehicle.save();
-            User.findById(req.user._id, function(err, foundUser) {
-              if(err) {
+            User.findById(req.user._id, function (err, foundUser) {
+              if (err) {
                 console.log(err);
               } else {
                 foundUser.transactions.push(newTransaction);
@@ -235,28 +259,62 @@ app.post("/rent/:vehicleId", function (req, res) {
 // PROFILE PAGE
 // ===============
 
-app.get('/user/me', function(req, res) {
-  if(req.isAuthenticated) {
+app.get('/user/me', function (req, res) {
+  if (req.isAuthenticated) {
     let newTransactions = [];
+    if (req.user.transactions.length === 0) {
+      res.render('profile.ejs', {
+        user: req.user,
+        transactions: newTransactions,
+        admin: (req.user && req.user.username === 'admin')
+      });
+    }
     req.user.transactions.forEach((transaction) => {
-      Transaction.findById(transaction, function(err, foundTransaction) {
-        if(err) {
+      Transaction.findById(transaction, function (err, foundTransaction) {
+        if (err) {
           console.log(err);
         } else {
-          Vehicle.findById(foundTransaction.vehicle, function(err, foundVehicle) {
-            if(err) {
+          Vehicle.findById(foundTransaction.vehicle, function (err, foundVehicle) {
+            if (err) {
               console.log(err);
             } else {
               let newTransaction = {
                 id: foundTransaction.id,
                 date: foundTransaction.date,
+                returnedOn: foundTransaction.returnedOn,
                 vehicle: {
                   model: foundVehicle.model,
                 }
               };
-              newTransactions.push(newTransaction);
-              if(newTransactions.length === req.user.transactions.length) {
-                res.render('profile.ejs', {user: req.user, transactions: newTransactions});
+              if (foundTransaction.returnedOn) {
+                Review.findById(foundTransaction.review, function (err, foundReview) {
+                  let review = {
+                    review: foundReview.review,
+                    rating: foundReview.rating
+                  }
+                  newTransaction = {
+                    ...newTransaction,
+                    review,
+                    totalCost: foundTransaction.totalCost
+                  }
+                  newTransactions.push(newTransaction);
+                  if (newTransactions.length === req.user.transactions.length) {
+                    res.render('profile.ejs', {
+                      user: req.user,
+                      transactions: newTransactions,
+                      admin: (req.user && req.user.username === 'admin')
+                    });
+                  }
+                })
+              } else {
+                newTransactions.push(newTransaction);
+                if (newTransactions.length === req.user.transactions.length) {
+                  res.render('profile.ejs', {
+                    user: req.user,
+                    transactions: newTransactions,
+                    admin: (req.user && req.user.username === 'admin')
+                  });
+                }
               }
             }
           })
@@ -273,16 +331,16 @@ app.get('/user/me', function(req, res) {
 // RETURN VEHICLE
 // ================
 
-app.get('/return/:transactionId', function(req, res) {
-  Transaction.findById(req.params.transactionId, function(err, foundTransaction) {
-    if(err) {
+app.get('/return/:transactionId', function (req, res) {
+  Transaction.findById(req.params.transactionId, function (err, foundTransaction) {
+    if (err) {
       console.log(err);
     } else {
-      Vehicle.findById(foundTransaction.vehicle, function(err, foundVehicle) {
-        if(err) {
+      Vehicle.findById(foundTransaction.vehicle, function (err, foundVehicle) {
+        if (err) {
           console.log(err);
         } else {
-          res.render('returnVehicle.ejs', {transaction: foundTransaction, vehicle: foundVehicle});
+          res.render('returnVehicle.ejs', { transaction: foundTransaction, vehicle: foundVehicle });
         }
       })
     }
@@ -294,37 +352,38 @@ app.get('/return/:transactionId', function(req, res) {
 // RETURNING VEHICLE IN THE DATABASE
 // ==================================
 
-app.post('/return/:transactionId', function(req, res) {
+app.post('/return/:transactionId', function (req, res) {
   // Changing strings returned from the form into integers
   req.body.kmsTravelled = parseInt(req.body.kmsTravelled);
   req.body.rating = parseInt(req.body.rating);
-  Transaction.findById(req.params.transactionId, function(err, foundTransaction) {
-    if(err) {
+  Transaction.findById(req.params.transactionId, function (err, foundTransaction) {
+    if (err) {
       console.log(err);
     } else {
-      Vehicle.findById(foundTransaction.vehicle, function(err, foundVehicle) {
-        if(err) {
+      Vehicle.findById(foundTransaction.vehicle, function (err, foundVehicle) {
+        if (err) {
           console.log(err);
         } else {
           Review.create({
             review: req.body.review,
             rating: req.body.rating,
-            transaction: foundTransaction
-          }, function(err, newReview) {
-            if(err) {
+            transaction: foundTransaction,
+            user: req.user.username
+          }, function (err, newReview) {
+            if (err) {
               console.log(err)
             } else {
               foundVehicle.reviews.push(newReview);
               foundVehicle.KMsTravelled = foundVehicle.KMsTravelled + req.body.kmsTravelled;
               let oldTotalRating = (foundVehicle.rating * (foundVehicle.reviews.length - 1));
               oldTotalRating += req.body.rating;
-              let newRating = oldTotalRating/(foundVehicle.reviews.length);
+              let newRating = oldTotalRating / (foundVehicle.reviews.length);
               foundVehicle.rating = newRating;
               foundVehicle.isAvailable = true;
               foundVehicle.save();
 
               foundTransaction.returnedOn = Date.now();
-              foundTransaction.totalCost = Math.ceil((Date.now() - foundTransaction.date)/(24*60*60*1000)) * foundVehicle.dailyRent;
+              foundTransaction.totalCost = Math.ceil((Date.now() - foundTransaction.date) / (24 * 60 * 60 * 1000)) * foundVehicle.dailyRent;
               foundTransaction.review = newReview;
               foundTransaction.KMsTravelled = req.body.kmsTravelled;
               foundTransaction.save();
@@ -343,16 +402,25 @@ app.post('/return/:transactionId', function(req, res) {
 // ================
 
 app.get("/login", function (req, res) {
-  res.render("login.ejs");
+  res.render("login.ejs", { failedLogin: false });
 })
 
 app.post('/login',
   passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/login',
+    failureRedirect: '/failedlogin',
     failureFlash: true
   })
 );
+
+
+// =================
+// FAILED LOGIN
+// =================
+
+app.get('/failedlogin', function (req, res) {
+  res.render('login.ejs', { failedLogin: true });
+})
 
 
 // ================
@@ -360,19 +428,31 @@ app.post('/login',
 // ================
 
 app.get("/signup", function (req, res) {
-  res.render("signup.ejs");
+  res.render("signup.ejs", { failedSignup: false });
 })
 
 app.post("/signup", function (req, res) {
-  User.create({
-    username: req.body.username,
-    password: req.body.password
-  }, function (err, newUser) {
-    if (err) {
-      console.log(err)
+  console.log("entering");
+  User.findOne({ username: req.body.username }, function(err, foundUser) {
+    if(err) {
+      console.log(err);
     } else {
-      console.log("Welcome " + newUser.username);
-      res.redirect("/login");
+      if(foundUser) {
+        res.render('signup.ejs', { failedSignup: true });
+      } else {
+        User.create({
+          fullname: req.body.fullname,
+          username: req.body.username,
+          password: req.body.password
+        }, function (err, newUser) {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log("Welcome " + newUser.username);
+            res.redirect("/login");
+          }
+        })
+      }
     }
   })
 })
