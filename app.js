@@ -402,7 +402,7 @@ app.post('/return/:transactionId', function (req, res) {
 // ================
 
 app.get("/login", function (req, res) {
-  res.render("login.ejs", { failedLogin: false });
+  res.render("logIn.ejs", { failedLogin: false });
 })
 
 app.post('/login',
@@ -419,7 +419,7 @@ app.post('/login',
 // =================
 
 app.get('/failedlogin', function (req, res) {
-  res.render('login.ejs', { failedLogin: true });
+  res.render('logIn.ejs', { failedLogin: true });
 })
 
 
@@ -428,7 +428,7 @@ app.get('/failedlogin', function (req, res) {
 // ================
 
 app.get("/signup", function (req, res) {
-  res.render("signup.ejs", { failedSignup: false });
+  res.render("signUp.ejs", { failedSignup: false });
 })
 
 app.post("/signup", function (req, res) {
@@ -438,7 +438,7 @@ app.post("/signup", function (req, res) {
       console.log(err);
     } else {
       if(foundUser) {
-        res.render('signup.ejs', { failedSignup: true });
+        res.render('signUp.ejs', { failedSignup: true });
       } else {
         User.create({
           fullname: req.body.fullname,
