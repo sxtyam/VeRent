@@ -2,6 +2,16 @@
 <html lang="en">
 
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SC0N4WRXRD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-SC0N4WRXRD');
+  </script>
+
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,9 +40,9 @@
     <p class='tagline'>You rent more than a Vehicle!</p>
     <div>
       <% if(admin) { %>
-      <a class='nav-link' href="/addVehicle">Add Vehcile <i class="fas fa-plus"></i></a>
-      <% } %>
-      <a class='nav-link' href="/logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
+        <a class='nav-link' href="/addVehicle">Add Vehcile <i class="fas fa-plus"></i></a>
+        <% } %>
+          <a class='nav-link' href="/logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
     </div>
   </nav>
 
@@ -40,8 +50,11 @@
   <div class='container'>
     <div class='row'>
       <div class='col-sm-6'>
-        <h1><%= user.fullname %></h1>
-        <h3 class='text-muted'>@<%= user.username %></h3>
+        <h1>
+          <%= user.fullname %>
+        </h1>
+        <h3 class='text-muted'>@<%= user.username %>
+        </h3>
       </div>
       <div class='col-sm-6'>
         <img src="/images/user.png" alt="">
@@ -49,26 +62,41 @@
     </div>
     <div id='transactions'>
       <h1>Transacations</h1>
-      <% if(transactions.length === 0) { %>
-        <h5>No Transactions yet!</h5>  
-      <% } %>
-      <% transactions.forEach((transaction) => { %>
-        <div class="card border-info review">
-          <div class="card-body">
-            <h5 class="card-title"><strong><%= transaction.vehicle.model %></strong></h5>
-            <hr>
-            <p class="card-text"><strong>Rented On: </strong><%= transaction.date.getDate() + '/' + transaction.date.getMonth() + '/' + transaction.date.getFullYear() %></p>
-            <% if(transaction.returnedOn) { %>
-              <p class='card-text'><strong>Returned On: </strong><%= transaction.returnedOn.getDate() + '/' + transaction.returnedOn.getMonth() + '/' + transaction.returnedOn.getFullYear() %></p>
-              <p class='card-text'><strong>Review: </strong><%= transaction.review.review %></p>
-              <p class='card-text'><strong>Rating: </strong><%= transaction.review.rating + '/5' %></p>
-              <p class='card-text'><strong>Total Cost: </strong><%= transaction.totalCost %></p>
-            <% } else { %>
-              <a class="btn btn-outline-info" role="button" href=<%= '/return/' + transaction.id %>>Return Vehicle</a>
-            <% } %>
-          </div>
-        </div>
-      <% }) %>
+      <% if(transactions.length===0) { %>
+        <h5>No Transactions yet!</h5>
+        <% } %>
+          <% transactions.forEach((transaction)=> { %>
+            <div class="card border-info review">
+              <div class="card-body">
+                <h5 class="card-title"><strong>
+                    <%= transaction.vehicle.model %>
+                  </strong></h5>
+                <hr>
+                <p class="card-text"><strong>Rented On: </strong>
+                  <%= transaction.date.getDate() + '/' + transaction.date.getMonth() + '/' +
+                    transaction.date.getFullYear() %>
+                </p>
+                <% if(transaction.returnedOn) { %>
+                  <p class='card-text'><strong>Returned On: </strong>
+                    <%= transaction.returnedOn.getDate() + '/' + transaction.returnedOn.getMonth() + '/' +
+                      transaction.returnedOn.getFullYear() %>
+                  </p>
+                  <p class='card-text'><strong>Review: </strong>
+                    <%= transaction.review.review %>
+                  </p>
+                  <p class='card-text'><strong>Rating: </strong>
+                    <%= transaction.review.rating + '/5' %>
+                  </p>
+                  <p class='card-text'><strong>Total Cost: </strong>
+                    <%= transaction.totalCost %>
+                  </p>
+                  <% } else { %>
+                    <a class="btn btn-outline-info" role="button" href=<%='/return/' + transaction.id %>>Return
+                      Vehicle</a>
+                    <% } %>
+              </div>
+            </div>
+            <% }) %>
     </div>
   </div>
 

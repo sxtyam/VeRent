@@ -2,6 +2,16 @@
 <html lang="en">
 
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SC0N4WRXRD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-SC0N4WRXRD');
+  </script>
+
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,15 +40,15 @@
     <p class='tagline'>You rent more than a Vehicle!</p>
     <div>
       <% if(admin) { %>
-      <a class='nav-link' href="/addVehicle">Add Vehcile <i class="fas fa-plus"></i></a>
-      <% } %>
-      <% if(loggedIn) { %>
-      <a class='nav-link' href="/user/me">Profile <i class="far fa-user"></i></a>
-      <a class='nav-link' href="/logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
-      <% } else { %>
-      <a class='nav-link' href="/signup">Sign Up <i class="fas fa-user-plus"></i></a>
-      <a class='nav-link' href="/login">Log In <i class="fas fa-user-lock"></i></a>
-      <% } %>
+        <a class='nav-link' href="/addVehicle">Add Vehcile <i class="fas fa-plus"></i></a>
+        <% } %>
+          <% if(loggedIn) { %>
+            <a class='nav-link' href="/user/me">Profile <i class="far fa-user"></i></a>
+            <a class='nav-link' href="/logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
+            <% } else { %>
+              <a class='nav-link' href="/signup">Sign Up <i class="fas fa-user-plus"></i></a>
+              <a class='nav-link' href="/login">Log In <i class="fas fa-user-lock"></i></a>
+              <% } %>
     </div>
   </nav>
 
@@ -46,33 +56,43 @@
   <div class='container'>
     <div class='row'>
       <% vehicles.forEach(function(vehicle) { %>
-      <div class='col-sm-4'>
-        <div class="card">
-          <div class="card-body">
-            <img class='card-img-top' src=<%= "/displayImage/" + vehicle._id %> alt="">
-            <% if(!(vehicle.vehicleType === "bicycle")) { %>
-            <p><strong>Vehicle Registration Number:</strong> <%= vehicle.plateNumber %></p>
-            <p><strong>Kilometers Travelled:</strong> <%= vehicle.KMsTravelled %></p>
-            <% } %>
-            <p><strong>Model:</strong> <%= vehicle.model %></p>
-            <p><strong>Rating:</strong> <%= vehicle.rating %></p>
-            <p><strong>One day Rent:</strong> <%= vehicle.dailyRent %></p>
-            <p><strong>Available Now:</strong>
-              <% if(vehicle.isAvailable) { %>
-              Yes
-              <% } else { %>
-              No
-              <% } %>
-            </p>
-            <a role='button' class="btn btn-outline-primary" href=<%= "/display/" + vehicle._id %>>Know More</a>
-            <% if(admin) { %>
-            <button type='button' class="btn btn-outline-danger"
-              onclick='deleteVehicleHandler("<%= vehicle._id %>")'>Delete</button>
-            <% } %>
+        <div class='col-sm-4'>
+          <div class="card">
+            <div class="card-body">
+              <img class='card-img-top' src=<%="/displayImage/" + vehicle._id %> alt="">
+              <% if(!(vehicle.vehicleType==="bicycle" )) { %>
+                <p><strong>Vehicle Registration Number:</strong>
+                  <%= vehicle.plateNumber %>
+                </p>
+                <p><strong>Kilometers Travelled:</strong>
+                  <%= vehicle.KMsTravelled %>
+                </p>
+                <% } %>
+                  <p><strong>Model:</strong>
+                    <%= vehicle.model %>
+                  </p>
+                  <p><strong>Rating:</strong>
+                    <%= vehicle.rating %>
+                  </p>
+                  <p><strong>One day Rent:</strong>
+                    <%= vehicle.dailyRent %>
+                  </p>
+                  <p><strong>Available Now:</strong>
+                    <% if(vehicle.isAvailable) { %>
+                      Yes
+                      <% } else { %>
+                        No
+                        <% } %>
+                  </p>
+                  <a role='button' class="btn btn-outline-primary" href=<%="/display/" + vehicle._id %>>Know More</a>
+                  <% if(admin) { %>
+                    <button type='button' class="btn btn-outline-danger"
+                      onclick='deleteVehicleHandler("<%= vehicle._id %>")'>Delete</button>
+                    <% } %>
+            </div>
           </div>
         </div>
-      </div>
-      <% }) %>
+        <% }) %>
     </div>
   </div>
 

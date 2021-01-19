@@ -2,6 +2,16 @@
 <html lang="en">
 
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SC0N4WRXRD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-SC0N4WRXRD');
+  </script>
+
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -28,45 +38,45 @@
     </div>
     <% } %>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-light bg-light">
-    <a href="/">
-      <img id='nav-logo' src="/images/verent.png" alt="logo">
-    </a>
-    <p class='tagline'>You rent more than a Vehicle!</p>
-    <div>
-      <a class='nav-link' href="/login">Log In <i class="fas fa-user-lock"></i></a>
-    </div>
-  </nav>
+      <!-- Navbar -->
+      <nav class="navbar navbar-light bg-light">
+        <a href="/">
+          <img id='nav-logo' src="/images/verent.png" alt="logo">
+        </a>
+        <p class='tagline'>You rent more than a Vehicle!</p>
+        <div>
+          <a class='nav-link' href="/login">Log In <i class="fas fa-user-lock"></i></a>
+        </div>
+      </nav>
 
-  <!-- Body -->
-  <div class='container'>
-    <div class='card border-success'>
-      <div class='card-body'>
-        <form action="/signup" method="POST">
-          <div class="form-group">
-            <label for="fullname">Full Name</label>
-            <input type="text" class="form-control" id="fullname" name="fullname" required>
+      <!-- Body -->
+      <div class='container'>
+        <div class='card border-success'>
+          <div class='card-body'>
+            <form action="/signup" method="POST">
+              <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" class="form-control" id="fullname" name="fullname" required>
+              </div>
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+              </div>
+              <button type="submit" class="btn btn-success">Submit</button>
+            </form>
           </div>
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username" required>
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-          </div>
-          <button type="submit" class="btn btn-success">Submit</button>
-        </form>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-  <!-- Jquery ka upr hai -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-    crossorigin="anonymous"></script>
+      <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+      <!-- Jquery ka upr hai -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

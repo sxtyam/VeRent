@@ -2,6 +2,16 @@
 <html lang="en">
 
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SC0N4WRXRD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-SC0N4WRXRD');
+  </script>
+
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,15 +40,15 @@
     <p class='tagline'>You rent more than a Vehicle!</p>
     <div>
       <% if(admin) { %>
-      <a class='nav-link' href="/addVehicle">Add Vehcile <i class="fas fa-plus"></i></a>
-      <% } %>
-      <% if(loggedIn) { %>
-      <a class='nav-link' href="/user/me">Profile <i class="far fa-user"></i></a>
-      <a class='nav-link' href="/logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
-      <% } else { %>
-      <a class='nav-link' href="/signup">Sign Up <i class="fas fa-user-plus"></i></a>
-      <a class='nav-link' href="/login">Log In <i class="fas fa-user-lock"></i></a>
-      <% } %>
+        <a class='nav-link' href="/addVehicle">Add Vehcile <i class="fas fa-plus"></i></a>
+        <% } %>
+          <% if(loggedIn) { %>
+            <a class='nav-link' href="/user/me">Profile <i class="far fa-user"></i></a>
+            <a class='nav-link' href="/logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
+            <% } else { %>
+              <a class='nav-link' href="/signup">Sign Up <i class="fas fa-user-plus"></i></a>
+              <a class='nav-link' href="/login">Log In <i class="fas fa-user-lock"></i></a>
+              <% } %>
     </div>
   </nav>
 
@@ -46,58 +56,75 @@
   <div class='container'>
     <div class='row'>
       <div class='col-sm-6'>
-        <img id='each-vehicle-img' src=<%= "/displayImage/" + vehicle._id %> alt="">
+        <img id='each-vehicle-img' src=<%="/displayImage/" + vehicle._id %> alt="">
       </div>
       <div class=col-sm-6>
-        <h1><%= vehicle.model %></h1>
-        <% if(!(vehicle.vehicleType === "bicycle")) { %>
-        <p><strong>Vehicle Registration Number:</strong> <%= vehicle.plateNumber %></p>
-        <p><strong>Kilometers Travelled:</strong> <%= vehicle.KMsTravelled %></p>
-        <% } %>
-        <p><strong>Rating:</strong> <%= vehicle.rating %></p>
-        <p><strong>One day Rent:</strong> <%= vehicle.dailyRent %></p>
-        <p><strong>Available Now:</strong>
-          <% if(vehicle.isAvailable) { %>
-          Yes
-          <% } else { %>
-          No
+        <h1>
+          <%= vehicle.model %>
+        </h1>
+        <% if(!(vehicle.vehicleType==="bicycle" )) { %>
+          <p><strong>Vehicle Registration Number:</strong>
+            <%= vehicle.plateNumber %>
+          </p>
+          <p><strong>Kilometers Travelled:</strong>
+            <%= vehicle.KMsTravelled %>
+          </p>
           <% } %>
-        </p>
-        <p>
-          <button id="toggleButton" class="btn btn-primary" type="button" data-toggle="collapse"
-            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Rent it
-          </button>
-        </p>
-        <div class="collapse" id="collapseExample">
-          <div id='collapsed-div' class="card card-body">
-            <form action=<%= "/rent/" + vehicle._id %> method="POST">
-              <p>Are you sure you want to rent <%= vehicle.model %>?</p>
-              <p>Daily rent: <%= vehicle.dailyRent %></p>
-              <button type="submit" class="btn btn-outline-success">Yes, I'm Sure</button>
-              <button type="reset" class="btn btn-outline-danger"
-                onclick='document.getElementById("toggleButton").click()'>Cancel</button>
-            </form>
-          </div>
-        </div>
+            <p><strong>Rating:</strong>
+              <%= vehicle.rating %>
+            </p>
+            <p><strong>One day Rent:</strong>
+              <%= vehicle.dailyRent %>
+            </p>
+            <p><strong>Available Now:</strong>
+              <% if(vehicle.isAvailable) { %>
+                Yes
+                <% } else { %>
+                  No
+                  <% } %>
+            </p>
+            <p>
+              <button id="toggleButton" class="btn btn-primary" type="button" data-toggle="collapse"
+                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Rent it
+              </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+              <div id='collapsed-div' class="card card-body">
+                <form action=<%="/rent/" + vehicle._id %> method="POST">
+                  <p>Are you sure you want to rent <%= vehicle.model %>?</p>
+                  <p>Daily rent: <%= vehicle.dailyRent %>
+                  </p>
+                  <button type="submit" class="btn btn-outline-success">Yes, I'm Sure</button>
+                  <button type="reset" class="btn btn-outline-danger"
+                    onclick='document.getElementById("toggleButton").click()'>Cancel</button>
+                </form>
+              </div>
+            </div>
       </div>
     </div>
     <div id='reviews'>
       <h1>Reviews</h1>
       <%= console.log(reviews) %>
-      <% if(reviews.length === 0) { %>
-        <h5>No Reviews yet!</h5>  
-      <% } %>
-      <% reviews.forEach((review) => { %>
-        <div class="card border-info review">
-          <div class="card-body">
-            <h5 class="card-title"><strong><%= review.user %></strong></h5>
-            <hr>
-            <p class="card-text"><%= review.review %></p>
-            <p class='card-text text-muted'><strong>Rated:</strong> <%= review.rating %>/5</p>
-          </div>
-        </div>
-      <% }) %>
+        <% if(reviews.length===0) { %>
+          <h5>No Reviews yet!</h5>
+          <% } %>
+            <% reviews.forEach((review)=> { %>
+              <div class="card border-info review">
+                <div class="card-body">
+                  <h5 class="card-title"><strong>
+                      <%= review.user %>
+                    </strong></h5>
+                  <hr>
+                  <p class="card-text">
+                    <%= review.review %>
+                  </p>
+                  <p class='card-text text-muted'><strong>Rated:</strong>
+                    <%= review.rating %>/5
+                  </p>
+                </div>
+              </div>
+              <% }) %>
     </div>
   </div>
 
